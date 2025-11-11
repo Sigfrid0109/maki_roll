@@ -157,7 +157,7 @@ def guardar_resultado():
 def obtener_platillos():
     db = get_db()
     cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM platillos")
+    cursor.execute("SELECT * FROM item_menu")
     datos = cursor.fetchall()
     cursor.close()
     db.close()
@@ -169,7 +169,7 @@ def agregar_platillo():
     db = get_db()
     cursor = db.cursor()
     cursor.execute("""
-        INSERT INTO platillos (nombre, descripcion, precio, categoria, imagen, activo)
+        INSERT INTO item_menu (nombre, descripcion, precio, categoria, imagen, activo)
         VALUES (%s, %s, %s, %s, %s, %s)
     """, (data['nombre'], data['descripcion'], data['precio'], data['categoria'], data['imagen'], data['activo']))
     db.commit()
@@ -183,9 +183,9 @@ def editar_platillo(id):
     db = get_db()
     cursor = db.cursor()
     cursor.execute("""
-        UPDATE platillos
+        UPDATE item_menu
         SET nombre=%s, descripcion=%s, precio=%s, categoria=%s, imagen=%s, activo=%s
-        WHERE id=%s
+        WHERE id_item=%s
     """, (data['nombre'], data['descripcion'], data['precio'], data['categoria'], data['imagen'], data['activo'], id))
     db.commit()
     cursor.close()
@@ -196,11 +196,12 @@ def editar_platillo(id):
 def eliminar_platillo(id):
     db = get_db()
     cursor = db.cursor()
-    cursor.execute("DELETE FROM platillos WHERE id=%s", (id,))
+    cursor.execute("DELETE FROM item_menu WHERE id_item=%s", (id,))
     db.commit()
     cursor.close()
     db.close()
     return jsonify({'mensaje': 'Platillo eliminado'})
+
 
 # ---------------------------------------------------
 # PEDIDOS
