@@ -4,12 +4,15 @@ import hashlib
 from datetime import datetime
 from db import get_db
 
+# ---------------------------------------------------
+# CONFIGURACIÓN
+# ---------------------------------------------------
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 app.secret_key = "clave_super_segura_123"
 
 # ---------------------------------------------------
-# RUTAS DE PÁGINAS HTML
+# RUTAS HTML
 # ---------------------------------------------------
 @app.route("/")
 def inicio():
@@ -26,10 +29,6 @@ def vista(nombre_pagina):
     except:
         return "Página no encontrada", 404
 
-@app.route("/menu")
-def vista_menu():
-    return render_template("menu.html")
-
 @app.route("/ruleta")
 def vista_ruleta():
     return render_template("ruleta.html")
@@ -37,6 +36,18 @@ def vista_ruleta():
 @app.route("/menu_admin")
 def vista_menu_admin():
     return render_template("menu_admin.html")
+
+# 🟩 Ruta del menú principal (con platillos de la BD)
+@app.route("/menu")
+def vista_menu():
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM item_menu WHERE activo = 1")
+    platillos = cursor.fetchall()
+    cursor.close()
+    db.close()
+    print("Platillos cargados:", len(platillos))
+    return render_template("menu.html", platillos=platillos)
 
 # ---------------------------------------------------
 # REGISTRO DE USUARIOS
@@ -151,10 +162,8 @@ def guardar_resultado():
     return jsonify({"exito": True, "mensaje": "Resultado guardado"})
 
 # ---------------------------------------------------
-# API CRUD DE PLATILLOS (MENÚ)
+# CRUD DE PLATILLOS (MENÚ)
 # ---------------------------------------------------
-
-# 🟢 OBTENER TODOS LOS PLATILLOS
 @app.route("/api/platillos", methods=["GET"])
 def obtener_platillos():
     db = get_db()
@@ -169,7 +178,6 @@ def obtener_platillos():
         cursor.close()
         db.close()
 
-# 🟡 AGREGAR UN NUEVO PLATILLO
 @app.route("/api/platillos", methods=["POST"])
 def agregar_platillo():
     data = request.get_json()
@@ -196,7 +204,6 @@ def agregar_platillo():
         cursor.close()
         db.close()
 
-# 🟠 EDITAR UN PLATILLO EXISTENTE
 @app.route("/api/platillos/<int:id>", methods=["PUT"])
 def editar_platillo(id):
     data = request.get_json()
@@ -225,7 +232,6 @@ def editar_platillo(id):
         cursor.close()
         db.close()
 
-# 🔴 ELIMINAR UN PLATILLO
 @app.route("/api/platillos/<int:id>", methods=["DELETE"])
 def eliminar_platillo(id):
     db = get_db()
@@ -240,7 +246,6 @@ def eliminar_platillo(id):
     finally:
         cursor.close()
         db.close()
-
 
 # ---------------------------------------------------
 # PEDIDOS
@@ -282,3 +287,4 @@ def enviar_pedido():
 # ---------------------------------------------------
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
+

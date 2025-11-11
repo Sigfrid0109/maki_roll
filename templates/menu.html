@@ -37,7 +37,7 @@
                 <div class="platillos">
                     {% for p in platillos %}
                         <div class="platillo" data-platillo="{{ p.categoria }}">
-                            <img src="{{ url_for('static', filename=p.imagen) }}" alt="{{ p.nombre }}">
+                            <img src="{{ url_for('static', filename='img/' + p.imagen) }}" alt="{{ p.nombre }}">
                             <h2>{{ p.nombre }}</h2>
                             <p>{{ p.descripcion }}</p>
                             <div class="precio">
