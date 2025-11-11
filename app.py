@@ -1,16 +1,34 @@
-from flask import Flask, request, jsonify, session
+from flask import Flask, render_template, request, jsonify, session
 from flask_cors import CORS
 import hashlib
 from datetime import datetime
 from db import get_db
 
-app = Flask(__name__)
+# ---------------------------------------------------
+# CONFIGURACIÓN DE LA APLICACIÓN
+# ---------------------------------------------------
+app = Flask(
+    __name__,
+    template_folder="Inicio_de_sesión",  # 📁 Aquí están tus HTML de inicio y registro
+    static_folder="Inicio_de_sesión"     # 📁 Aquí están tus css, js e imágenes
+)
 CORS(app, supports_credentials=True)
 app.secret_key = "clave_super_segura_123"
 
-# ----------------------------
-# 🔹 REGISTRO DE USUARIOS
-# ----------------------------
+# ---------------------------------------------------
+# RUTAS VISUALES PARA PÁGINAS HTML
+# ---------------------------------------------------
+@app.route("/")
+def inicio():
+    return render_template("inicio_sesion.html")
+
+@app.route("/registro")
+def registro():
+    return render_template("Registro.html")
+
+# ---------------------------------------------------
+# REGISTRO DE USUARIOS
+# ---------------------------------------------------
 @app.route("/registrar", methods=["POST"])
 def registrar():
     db = get_db()
@@ -37,13 +55,15 @@ def registrar():
         """, (nombre, correo, contraseña_hash, rol))
         db.commit()
         return jsonify({"exito": True, "mensaje": "Usuario registrado exitosamente"})
+    except Exception as e:
+        return jsonify({"exito": False, "error": str(e)})
     finally:
         cursor.close()
         db.close()
 
-# ----------------------------
-# 🔹 LOGIN DE USUARIOS
-# ----------------------------
+# ---------------------------------------------------
+# LOGIN DE USUARIOS
+# ---------------------------------------------------
 @app.route("/login", methods=["POST"])
 def login():
     db = get_db()
@@ -83,22 +103,26 @@ def login():
     else:
         return jsonify({"exito": False, "mensaje": "Usuario o contraseña incorrectos"})
 
-# ----------------------------
-# 🔹 LOGOUT
-# ----------------------------
+# ---------------------------------------------------
+# LOGOUT
+# ---------------------------------------------------
 @app.route("/logout", methods=["POST"])
 def logout():
     session.clear()
     return jsonify({"exito": True, "mensaje": "Sesión cerrada correctamente"})
 
-# ---------------- RULETA: PREMIOS ----------------
+# ---------------------------------------------------
+# RULETA: PREMIOS
+# ---------------------------------------------------
 @app.route("/api/premios", methods=["GET"])
 def obtener_premios():
     db = get_db()
     cursor = db.cursor(dictionary=True)
     cursor.execute("SELECT id_premio, nombre FROM premios")
-    return jsonify(cursor.fetchall())
-
+    data = cursor.fetchall()
+    cursor.close()
+    db.close()
+    return jsonify(data)
 
 @app.route("/api/premios", methods=["POST"])
 def actualizar_premios():
@@ -106,16 +130,16 @@ def actualizar_premios():
     cursor = db.cursor(dictionary=True)
 
     data = request.json
-    # Limpia la tabla
     cursor.execute("DELETE FROM premios")
 
-    # Inserta los premios recibidos
     for premio in data.get("premios", []):
         cursor.execute("INSERT INTO premios (nombre) VALUES (%s)", (premio,))
 
     db.commit()
-    return jsonify({"mensaje": "Premios actualizados correctamente"})
+    cursor.close()
+    db.close()
 
+    return jsonify({"mensaje": "Premios actualizados correctamente"})
 
 @app.route("/api/resultados", methods=["POST"])
 def guardar_resultado():
@@ -123,11 +147,9 @@ def guardar_resultado():
     cursor = db.cursor(dictionary=True)
 
     data = request.json
-
     id_usuario = data.get("id_usuario")
     id_premio = data.get("id_premio")
 
-    # Validación
     if not id_usuario or not id_premio:
         return jsonify({"exito": False, "error": "Faltan datos: id_usuario o id_premio"}), 400
 
@@ -136,12 +158,13 @@ def guardar_resultado():
             INSERT INTO resultados (id_usuario, id_premio)
             VALUES (%s, %s)
         """, (id_usuario, id_premio))
-
         db.commit()
         return jsonify({"exito": True, "mensaje": "Resultado guardado"})
-
     except Exception as err:
         return jsonify({"exito": False, "error": str(err)}), 500
+    finally:
+        cursor.close()
+        db.close()
 
 @app.route("/api/resultados", methods=["GET"])
 def obtener_resultados():
@@ -150,27 +173,28 @@ def obtener_resultados():
     cursor.execute("""
         SELECT r.id_resultado, u.usuario, p.nombre AS premio, r.fecha
         FROM resultados r
-        LEFT JOIN usuarios u ON r.id_usuario = u.id_usuario
+        LEFT JOIN cliente u ON r.id_usuario = u.id_usuario
         LEFT JOIN premios p ON r.id_premio = p.id_premio
         ORDER BY r.fecha DESC
     """)
-    return jsonify(cursor.fetchall())
+    data = cursor.fetchall()
+    cursor.close()
+    db.close()
+    return jsonify(data)
 
-
-# ---------------- PEDIDOS (DEL ARCHIVO 3) ----------------
+# ---------------------------------------------------
+# PEDIDOS
+# ---------------------------------------------------
 @app.route("/enviar_pedido", methods=["POST"])
 def enviar_pedido():
     db = get_db()
     cursor = db.cursor(dictionary=True)
-
     datos = request.get_json()
 
-    # Insertar pedido base
     cursor.execute("INSERT INTO pedidos (platillo) VALUES (%s)", (datos["platillo"],))
     db.commit()
     id_pedido = cursor.lastrowid
 
-    # Insertar detalles
     cursor.execute("""
         INSERT INTO pedido_detalles (
             id_pedido, nombre_cliente, nombre_usuario, direccion, telefono, codigo_postal,
@@ -190,8 +214,12 @@ def enviar_pedido():
     ))
     db.commit()
 
+    cursor.close()
+    db.close()
     return jsonify({"mensaje": "Pedido guardado correctamente"})
 
-
+# ---------------------------------------------------
+# EJECUCIÓN
+# ---------------------------------------------------
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
