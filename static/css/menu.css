@@ -23,23 +23,23 @@ body {
 
 /* Header */
 .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
+    padding: 15px 20px;
     background-color: var(--color-negro);
     color: var(--color-blanco);
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     z-index: 1000;
     box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 .header h1 {
+    margin: 0 auto; /* se centra automáticamente */
     font-size: 24px;
-    margin: 0;
 }
 
 .carrito-icono {
@@ -487,4 +487,53 @@ dialog::backdrop {
     .main-content {
         padding: 1rem;
     }
+}
+
+/*  esto es el boton de aja/
+/* Ocultar */
+#menu-toggle {
+  display: none;
+}
+
+/* Estilo del botón */
+.menu-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px; 
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 9999;
+  color: #fff;
+}
+
+/* LO del menú */
+.menu {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  background: rgba(209, 102, 102, 0);
+  color: rgb(185, 239, 78);
+  padding-top: 60px;
+  transition: 0.3s;
+  backdrop-filter: blur(5px);
+  z-index: 100;
+}
+
+.menu a {
+  display: block;
+  padding: 15px;
+  color: rgb(211, 132, 132);
+  text-decoration: none;
+  border-bottom: 1px solid #444;
+}
+
+.menu a:hover {
+  background: #444;
+}
+
+/* Cuando el checkbox está activado */
+#menu-toggle:checked ~ .menu {
+  left: 0;
 }

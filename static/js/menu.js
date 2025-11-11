@@ -1,3 +1,31 @@
+document.addEventListener("DOMContentLoaded", () => {
+
+  // Enlaces del menú
+  const inicio = document.getElementById("inicio");
+  const menu = document.getElementById("menu_pedidos");
+  const ruleta = document.getElementById("ruleta");
+
+  if (inicio) {
+    inicio.addEventListener("click", () => {
+      window.location.href = "/vista/cliente";
+    });
+  }
+
+  if (menu_pedidos) {
+    menu.addEventListener("click", () => {
+      window.location.href = "/menu";
+    });
+  }
+
+
+  if (ruleta) {
+    ruleta.addEventListener("click", () => {
+      window.location.href = "/ruleta";
+    });
+  }
+
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     // Elementos del DOM
     const carritoIcono = document.getElementById('carritoIcono');
