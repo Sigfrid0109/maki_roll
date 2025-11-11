@@ -48,14 +48,13 @@ def registro():
 # ---------------------------------------------------
 @app.route("/vista/<nombre_pagina>")
 def vista(nombre_pagina):
-    ruta = f"Vistas_de_inicio/{nombre_pagina}.html"
-    print(f"🧭 Buscando plantilla en: {ruta}")
+    try:
+        print(f"Cargando plantilla: Vistas_de_inicio/{nombre_pagina}.html")
+        return render_template(f"Vistas_de_inicio/{nombre_pagina}.html")
+    except Exception as e:
+        print(f"⚠️ Error al cargar la vista: {e}")
+        return "Página no encontrada", 404
 
-    if os.path.exists(os.path.join("Vistas_de_inicio", f"{nombre_pagina}.html")):
-        return render_template(ruta)
-    else:
-        print(f"⚠️ No se encontró el archivo: {ruta}")
-        return f"Página no encontrada: {ruta}", 404
 # ---------------------------------------------------
 # REGISTRO DE USUARIOS
 # ---------------------------------------------------
