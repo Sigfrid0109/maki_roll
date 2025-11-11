@@ -9,8 +9,8 @@ from db import get_db
 # ---------------------------------------------------
 app = Flask(
     __name__,
-    template_folder="Inicio_de_sesión",   # 📁 Aquí están los HTML de login/registro
-    static_folder="Inicio_de_sesión"      # 📁 Aquí están los CSS, JS e imágenes
+    template_folder="Inicio_de_sesión",   # 📁 HTML de login/registro
+    static_folder="Inicio_de_sesión"      # 📁 CSS, JS e imágenes
 )
 CORS(app, supports_credentials=True)
 app.secret_key = "clave_super_segura_123"
@@ -31,7 +31,7 @@ def img(filename):
     return send_from_directory('Inicio_de_sesión/img', filename)
 
 # ---------------------------------------------------
-# RUTAS VISUALES PARA PÁGINAS HTML
+# RUTAS VISUALES PARA LOGIN / REGISTRO
 # ---------------------------------------------------
 @app.route("/")
 def inicio():
@@ -40,6 +40,16 @@ def inicio():
 @app.route("/registro")
 def registro():
     return render_template("Registro.html")
+
+# ---------------------------------------------------
+# RUTA GENERAL PARA LAS VISTAS DE INICIO
+# ---------------------------------------------------
+@app.route("/vista/<nombre_pagina>")
+def vista(nombre_pagina):
+    try:
+        return render_template(f"Vista_de_inicio/{nombre_pagina}.html")
+    except Exception:
+        return "Página no encontrada", 404
 
 # ---------------------------------------------------
 # REGISTRO DE USUARIOS
@@ -236,4 +246,3 @@ def enviar_pedido():
 # ---------------------------------------------------
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
-
