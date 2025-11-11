@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maki Roll</title>
-    <link rel="shortcut icon" href="img/restaurante.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="/Vistas_de_inicio/css/normalize.css">
-    <link rel="stylesheet" href="/Vistas_de_inicio/css/MY.css">
+<!-- ✅ Ícono -->
+<link rel="shortcut icon" href="{{ url_for('static', filename='img/restaurante.jpg') }}" type="image/x-icon">
+
+<!-- ✅ CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/MY.css') }}">
+
 </head>
 <body>
           
@@ -62,6 +66,6 @@
         </nav>
 
     </header>
-    <script src="js/adm,consu,edt.js"></script>
+    <script src="{{ url_for('static', filename='js/adm_consu_edt.js') }}"></script>
 </body>
 </html>

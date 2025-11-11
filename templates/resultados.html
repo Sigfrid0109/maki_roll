@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Resultados de la Ruleta</title>
-  <link rel="stylesheet" href="css/resultados.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/resultados.css') }}">
+
 </head>
 
 <body>
@@ -43,7 +44,7 @@
     </tbody>
   </table>
   
-  <script src="js/resultados.js"></script>
+  <script src="{{ url_for('static', filename='js/resultados.js') }}"></script>
 </body>
 </html>
 

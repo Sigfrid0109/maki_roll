@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Configurar Ruleta</title>
-  <link rel="stylesheet" href="css/ruleta_config.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/ruleta_config.css') }}">
+
 </head>
 <body>
 
@@ -36,7 +37,7 @@
     <button id="guardar">Guardar cambios</button>
   </div>
 
-  <script src="js/ruleta_config.js"></script>
+   <script src="{{ url_for('static', filename='js/ruleta_config.js') }}"></script>
 </body>
 </html>
 

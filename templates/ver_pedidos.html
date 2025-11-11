@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Registro de Pedidos</title>
-  <link rel="stylesheet" href="/Pedidos_adm_consu_edt/css/ver_pedidos.css">
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/ver_pedidos.css') }}">
+
 </head>
 <body>
 
@@ -93,8 +94,7 @@
     cargarPedidos();
   </script>
 
-      <script src="js/ver_pedidos.js"></script>
-
+      <script src="{{ url_for('static', filename='js/ver_pedidos.js') }}"></script>
 
 </body>
 </html>

@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maki Rolly - Iniciar Sesión</title>
-    <link rel="stylesheet" href="/Inicio_de_sesión/css/estilo.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+
 </head>
 <body>
     <div class="formulario"> 
@@ -33,6 +34,6 @@
         </form>
     </div>
 
-    <script src="/Inicio_de_sesión/js/funcioness.js"></script>
+     <script src="{{ url_for('static', filename='js/funcioness.js') }}"></script>
 </body>
 </html>
