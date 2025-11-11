@@ -1,22 +1,37 @@
-// Esperar a que todo el contenido del documento esté cargado
 document.addEventListener("DOMContentLoaded", () => {
-  // Asignar eventos a los enlaces del menú
-  document.getElementById("inicio").addEventListener("click", () => {
-    window.location.href = "/ADM/inicio de sesion/cliente.html";
-  });
 
-  document.getElementById("menu").addEventListener("click", () => {
-    window.location.href = "/ADM/Menu/menu.html";
-  });
+  // Enlaces del menú
+  const inicio = document.getElementById("inicio");
+  const menu = document.getElementById("menu");
+  const pedidos = document.getElementById("pedidos");
+  const ruleta = document.getElementById("ruleta");
 
-  document.getElementById("pedidos").addEventListener("click", () => {
-    window.location.href = "/ADM/Menu/menu.html";
-  });
+  if (inicio) {
+    inicio.addEventListener("click", () => {
+      window.location.href = "/vista/cliente";
+    });
+  }
 
-  document.getElementById("ruleta").addEventListener("click", () => {
-    window.location.href = "ruleta.html";
-  });
+  if (menu) {
+    menu.addEventListener("click", () => {
+      window.location.href = "/menu";
+    });
+  }
+
+  if (pedidos) {
+    pedidos.addEventListener("click", () => {
+      window.location.href = "/pedidos";
+    });
+  }
+
+  if (ruleta) {
+    ruleta.addEventListener("click", () => {
+      window.location.href = "/ruleta";
+    });
+  }
+
 });
+
 
 document.addEventListener("DOMContentLoaded", async () => {
     const container = document.querySelector(".container");

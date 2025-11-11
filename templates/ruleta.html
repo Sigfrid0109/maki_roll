@@ -7,15 +7,14 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/ruleta.css') }}">
 </head>
 <body>
-     <!-- Botón para abrir/cerrar -->
-  <label for="menu-toggle" class="menu-btn">&#9776;</label>
-  <input type="checkbox" id="menu-toggle">
+<!-- Botón para abrir/cerrar -->
+<label for="menu-toggle" class="menu-btn">&#9776;</label>
+<input type="checkbox" id="menu-toggle">
 
-  <!-- Menú lateral -->
+<!-- Menú lateral -->
 <div class="menu">
   <a id="inicio">Inicio</a>
-  <a id="menu">Menú</a>
-  <a id="pedidos">Pedidos</a>
+  <a id="menu_pedidos">Menú</a>
   <a id="ruleta">Ruleta de premios</a>
 </div>
 
@@ -71,7 +70,7 @@
             <button id="closeDialog">Cerrar</button>
         </div>
     </dialog>
-        <script src="{{ url_for('static', filename='js/ruleta_config.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/ruleta.js') }}"></script>
 </body>
 </html>
  
