@@ -9,8 +9,8 @@ from db import get_db
 # ---------------------------------------------------
 app = Flask(
     __name__,
-    template_folder="Inicio_de_sesión",   # 📁 Aquí están los HTML de login/registro
-    static_folder="Inicio_de_sesión"      # 📁 Aquí están los CSS, JS e imágenes
+    template_folder="Inicio_de_sesión",  
+    static_folder="Inicio_de_sesión"
 )
 CORS(app, supports_credentials=True)
 app.secret_key = "clave_super_segura_123"
@@ -65,7 +65,7 @@ def registrar():
 
     try:
         cursor.execute("""
-            INSERT INTO cliente (usuario, correo, contraseña, rol)
+            INSERT INTO clientes (usuario, correo, contraseña, rol)
             VALUES (%s, %s, %s, %s)
         """, (nombre, correo, contraseña_hash, rol))
         db.commit()
@@ -95,7 +95,7 @@ def login():
 
     cursor.execute("""
         SELECT id_usuario, usuario, rol
-        FROM cliente
+        FROM clientes
         WHERE usuario = %s AND contraseña = %s
     """, (usuario, contraseña_hash))
 
@@ -186,7 +186,7 @@ def obtener_resultados():
     cursor.execute("""
         SELECT r.id_resultado, u.usuario, p.nombre AS premio, r.fecha
         FROM resultados r
-        LEFT JOIN cliente u ON r.id_usuario = u.id_usuario
+        LEFT JOIN clientes u ON r.id_usuario = u.id_usuario
         LEFT JOIN premios p ON r.id_premio = p.id_premio
         ORDER BY r.fecha DESC
     """)
@@ -236,4 +236,3 @@ def enviar_pedido():
 # ---------------------------------------------------
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
-
