@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, render_template, request, jsonify, session, send_from_directory
 from flask_cors import CORS
 import hashlib
 from datetime import datetime
@@ -9,11 +9,26 @@ from db import get_db
 # ---------------------------------------------------
 app = Flask(
     __name__,
-    template_folder="Inicio_de_sesión",  # 📁 Aquí están tus HTML de inicio y registro
-    static_folder="Inicio_de_sesión"     # 📁 Aquí están tus css, js e imágenes
+    template_folder="Inicio_de_sesión",   # 📁 Aquí están los HTML de login/registro
+    static_folder="Inicio_de_sesión"      # 📁 Aquí están los CSS, JS e imágenes
 )
 CORS(app, supports_credentials=True)
 app.secret_key = "clave_super_segura_123"
+
+# ---------------------------------------------------
+# RUTAS PARA ARCHIVOS ESTÁTICOS (CSS, JS, IMG)
+# ---------------------------------------------------
+@app.route('/css/<path:filename>')
+def css(filename):
+    return send_from_directory('Inicio_de_sesión/css', filename)
+
+@app.route('/js/<path:filename>')
+def js(filename):
+    return send_from_directory('Inicio_de_sesión/js', filename)
+
+@app.route('/img/<path:filename>')
+def img(filename):
+    return send_from_directory('Inicio_de_sesión/img', filename)
 
 # ---------------------------------------------------
 # RUTAS VISUALES PARA PÁGINAS HTML
@@ -34,7 +49,7 @@ def registrar():
     db = get_db()
     cursor = db.cursor(dictionary=True)
 
-    data = request.get_json()  # 🔹 Cambiado a get_json() para evitar errores
+    data = request.get_json()
     nombre = data.get("usuario")
     correo = data.get("correo")
     contraseña = data.get("contraseña")
@@ -137,7 +152,6 @@ def actualizar_premios():
     db.commit()
     cursor.close()
     db.close()
-
     return jsonify({"mensaje": "Premios actualizados correctamente"})
 
 @app.route("/api/resultados", methods=["POST"])
