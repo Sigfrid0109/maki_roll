@@ -1,85 +1,41 @@
-from flask import Flask, render_template, request, jsonify, session, send_from_directory
+from flask import Flask, render_template, request, jsonify, session
 from flask_cors import CORS
 import hashlib
 from datetime import datetime
 from db import get_db
-import os
 
 # ---------------------------------------------------
 # CONFIGURACIÓN DE LA APLICACIÓN
 # ---------------------------------------------------
-app = Flask(
-    __name__,
-    template_folder=".",    # 📁 Flask puede acceder a todas las carpetas de HTML
-    static_folder="."       # 📁 Flask servirá CSS/JS desde cualquier subcarpeta
-)
+app = Flask(__name__)
 CORS(app, supports_credentials=True)
 app.secret_key = "clave_super_segura_123"
 
 # ---------------------------------------------------
-# RUTAS ESTÁTICAS PARA "Inicio_de_sesión"
-# ---------------------------------------------------
-@app.route('/Inicio_de_sesión/css/<path:filename>')
-def sesiones_css(filename):
-    return send_from_directory('Inicio_de_sesión/css', filename)
-
-@app.route('/Inicio_de_sesión/js/<path:filename>')
-def sesiones_js(filename):
-    return send_from_directory('Inicio_de_sesión/js', filename)
-
-@app.route('/Inicio_de_sesión/img/<path:filename>')
-def sesiones_img(filename):
-    return send_from_directory('Inicio_de_sesión/img', filename)
-
-# ---------------------------------------------------
-# RUTAS ESTÁTICAS PARA "Vistas_de_inicio"
-# ---------------------------------------------------
-@app.route('/Vistas_de_inicio/css/<path:filename>')
-def vistas_css(filename):
-    return send_from_directory('Vistas_de_inicio/css', filename)
-
-@app.route('/Vistas_de_inicio/js/<path:filename>')
-def vistas_js(filename):
-    return send_from_directory('Vistas_de_inicio/js', filename)
-
-@app.route('/Vistas_de_inicio/img/<path:filename>')
-def vistas_img(filename):
-    return send_from_directory('Vistas_de_inicio/img', filename)
-
-# ---------------------------------------------------
-# RUTAS VISUALES PRINCIPALES
+# RUTAS DE PÁGINAS HTML
 # ---------------------------------------------------
 @app.route("/")
 def inicio():
-    return render_template("Inicio_de_sesión/inicio_sesion.html")
+    return render_template("inicio_sesion.html")
 
 @app.route("/registro")
 def registro():
-    return render_template("Inicio_de_sesión/Registro.html")
+    return render_template("Registro.html")
 
-# ---------------------------------------------------
-# RUTA DINÁMICA PARA LAS VISTAS DE INICIO
-# ---------------------------------------------------
 @app.route("/vista/<nombre_pagina>")
 def vista(nombre_pagina):
-    ruta = f"Vistas_de_inicio/{nombre_pagina}.html"
-    print(f"🧭 Cargando plantilla: {ruta}")
-    if os.path.exists(os.path.join("Vistas_de_inicio", f"{nombre_pagina}.html")):
-        return render_template(ruta)
-    else:
-        print(f"⚠️ No se encontró el archivo: {ruta}")
-        return f"Página no encontrada: {ruta}", 404
+    try:
+        return render_template(f"{nombre_pagina}.html")
+    except:
+        return "Página no encontrada", 404
 
-# ---------------------------------------------------
-# RUTAS PARA MENÚ Y RULETA
-# ---------------------------------------------------
 @app.route("/menu")
 def vista_menu():
-    return render_template("Menu/templates/menu.html")
+    return render_template("menu.html")
 
 @app.route("/ruleta")
 def vista_ruleta():
-    return render_template("Ruleta_vista_general/ruleta.html")
+    return render_template("ruleta.html")
 
 # ---------------------------------------------------
 # REGISTRO DE USUARIOS
@@ -114,7 +70,7 @@ def registrar():
         db.close()
 
 # ---------------------------------------------------
-# LOGIN DE USUARIOS
+# LOGIN / LOGOUT
 # ---------------------------------------------------
 @app.route("/login", methods=["POST"])
 def login():
@@ -141,22 +97,11 @@ def login():
     db.close()
 
     if result:
-        session["id_usuario"] = result["id_usuario"]
-        session["usuario"] = result["usuario"]
-        session["rol"] = result["rol"]
-
-        return jsonify({
-            "exito": True,
-            "mensaje": "Inicio de sesión exitoso",
-            "id_usuario": result["id_usuario"],
-            "rol": result["rol"]
-        })
+        session.update(result)
+        return jsonify({"exito": True, "mensaje": "Inicio de sesión exitoso", **result})
     else:
         return jsonify({"exito": False, "mensaje": "Usuario o contraseña incorrectos"})
 
-# ---------------------------------------------------
-# LOGOUT
-# ---------------------------------------------------
 @app.route("/logout", methods=["POST"])
 def logout():
     session.clear()
@@ -193,42 +138,17 @@ def actualizar_premios():
 def guardar_resultado():
     db = get_db()
     cursor = db.cursor(dictionary=True)
-
     data = request.get_json()
-    id_usuario = data.get("id_usuario")
-    id_premio = data.get("id_premio")
+    id_usuario, id_premio = data.get("id_usuario"), data.get("id_premio")
 
     if not id_usuario or not id_premio:
         return jsonify({"exito": False, "error": "Faltan datos"}), 400
 
-    try:
-        cursor.execute("""
-            INSERT INTO resultados (id_usuario, id_premio)
-            VALUES (%s, %s)
-        """, (id_usuario, id_premio))
-        db.commit()
-        return jsonify({"exito": True, "mensaje": "Resultado guardado"})
-    except Exception as err:
-        return jsonify({"exito": False, "error": str(err)}), 500
-    finally:
-        cursor.close()
-        db.close()
-
-@app.route("/api/resultados", methods=["GET"])
-def obtener_resultados():
-    db = get_db()
-    cursor = db.cursor(dictionary=True)
-    cursor.execute("""
-        SELECT r.id_resultado, u.usuario, p.nombre AS premio, r.fecha
-        FROM resultados r
-        LEFT JOIN clientes u ON r.id_usuario = u.id_usuario
-        LEFT JOIN premios p ON r.id_premio = p.id_premio
-        ORDER BY r.fecha DESC
-    """)
-    data = cursor.fetchall()
+    cursor.execute("INSERT INTO resultados (id_usuario, id_premio) VALUES (%s, %s)", (id_usuario, id_premio))
+    db.commit()
     cursor.close()
     db.close()
-    return jsonify(data)
+    return jsonify({"exito": True, "mensaje": "Resultado guardado"})
 
 # ---------------------------------------------------
 # PEDIDOS
