@@ -37,16 +37,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     switch (rol) {
                         case "administrador":
-                            window.location.href = "/Vista_de_inicio/admin.html";
+                            window.location.href = "/Vistas_de_inicio/admin.html";
                             break;
                         case "editor":
-                            window.location.href = "/Vista_de_inicio/editor.html";
+                            window.location.href = "/Vistas_de_inicio/editor.html";
                             break;
                         case "consultor":
-                            window.location.href = "/Vista_de_inicio/consultor.html";
+                            window.location.href = "/Vistas_de_inicio/consultor.html";
                             break;
                         case "usuario":
-                            window.location.href = "/Vista_de_inicio/cliente.html";
+                            window.location.href = "/Vistas_de_inicio/cliente.html";
                             break;
                         default:
                             alert("Rol desconocido: " + rol);
