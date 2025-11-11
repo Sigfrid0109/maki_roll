@@ -37,6 +37,43 @@ def vista_ruleta():
 def vista_menu_admin():
     return render_template("menu_admin.html")
 
+# ---------------------------------------------------
+# NUEVAS RUTAS SEGÚN LAS VISTAS EN templates/
+# ---------------------------------------------------
+
+@app.route("/inicio_admin")
+def inicio_admin():
+    return render_template("inicio_admin.html")
+
+@app.route("/inicio_editor")
+def inicio_editor():
+    return render_template("inicio_editor.html")
+
+@app.route("/inicio_consultor")
+def inicio_consultor():
+    return render_template("inicio_consultor.html")
+
+@app.route("/inicio_usuario")
+def inicio_usuario():
+    return render_template("inicio_usuario.html")
+
+@app.route("/graficas_ventas")
+def graficas_ventas():
+    return render_template("graficas_ventas.html")
+
+@app.route("/ver_pedidos")
+def ver_pedidos():
+    return render_template("ver_pedidos.html")
+
+@app.route("/resultados")
+def resultados():
+    return render_template("resultados.html")
+
+@app.route("/ruleta_config")
+def ruleta_config():
+    return render_template("ruleta_config.html")
+
+
 # 🟩 Ruta del menú principal (con platillos de la BD)
 @app.route("/menu")
 def vista_menu():
