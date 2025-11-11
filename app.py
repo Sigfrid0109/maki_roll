@@ -3,16 +3,15 @@ from flask_cors import CORS
 import hashlib
 from datetime import datetime
 from db import get_db
+import os
 
 # ---------------------------------------------------
 # CONFIGURACIÓN DE LA APLICACIÓN
 # ---------------------------------------------------
 app = Flask(
     __name__,
-    
-    template_folder=".",   # 📁 HTML de login/registro
-    static_folder="."      # 📁 CSS, JS e imágenes
-
+    template_folder=".",    # 📁 Flask podrá ver todas las carpetas de HTML
+    static_folder="."       # 📁 Flask servirá CSS/JS desde cualquier subcarpeta
 )
 CORS(app, supports_credentials=True)
 app.secret_key = "clave_super_segura_123"
@@ -37,23 +36,24 @@ def img(filename):
 # ---------------------------------------------------
 @app.route("/")
 def inicio():
-    return render_template("inicio_sesion.html")
+    return render_template("Inicio_de_sesión/inicio_sesion.html")
 
 @app.route("/registro")
 def registro():
-    return render_template("Registro.html")
+    return render_template("Inicio_de_sesión/Registro.html")
 
 # ---------------------------------------------------
 # RUTA DINÁMICA PARA LAS VISTAS DE INICIO
 # ---------------------------------------------------
 @app.route("/vista/<nombre_pagina>")
 def vista(nombre_pagina):
-    try:
-        print(f"Cargando plantilla: Vistas_de_inicio/{nombre_pagina}.html")
-        return render_template(f"Vistas_de_inicio/{nombre_pagina}.html")
-    except Exception as e:
-        print(f"⚠️ Error al cargar la vista: {e}")
-        return "Página no encontrada", 404
+    ruta = f"Vistas_de_inicio/{nombre_pagina}.html"
+    print(f"🧭 Cargando plantilla: {ruta}")
+    if os.path.exists(os.path.join("Vistas_de_inicio", f"{nombre_pagina}.html")):
+        return render_template(ruta)
+    else:
+        print(f"⚠️ No se encontró el archivo: {ruta}")
+        return f"Página no encontrada: {ruta}", 404
 
 # ---------------------------------------------------
 # REGISTRO DE USUARIOS
@@ -71,9 +71,6 @@ def registrar():
 
     if not nombre or not correo or not contraseña:
         return jsonify({"exito": False, "error": "Faltan campos requeridos"}), 400
-
-    if rol not in ["administrador", "editor", "consultor", "usuario"]:
-        return jsonify({"exito": False, "error": "Rol no válido"}), 400
 
     contraseña_hash = hashlib.sha256(contraseña.encode()).hexdigest()
 
@@ -159,10 +156,8 @@ def actualizar_premios():
     data = request.get_json()
 
     cursor.execute("DELETE FROM premios")
-
     for premio in data.get("premios", []):
         cursor.execute("INSERT INTO premios (nombre) VALUES (%s)", (premio,))
-
     db.commit()
     cursor.close()
     db.close()
@@ -240,7 +235,6 @@ def enviar_pedido():
         datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     ))
     db.commit()
-
     cursor.close()
     db.close()
     return jsonify({"mensaje": "Pedido guardado correctamente"})
