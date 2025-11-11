@@ -1,17 +1,27 @@
-// Esperar a que todo el contenido del documento esté cargado
 document.addEventListener("DOMContentLoaded", () => {
-  // Asignar eventos a los enlaces del menú
-  document.getElementById("inicio").addEventListener("click", () => {
-    window.location.href = "Vistas_de_inicio/cliente.html";
-  });
 
-  document.getElementById("menu y pedidos").addEventListener("click", () => {
-    window.location.href = "Menu/templates/menu.html";
-  });
+  // Enlaces del menú
+  const inicio = document.getElementById("inicio");
+  const menu = document.getElementById("menu_pedidos");
+  const ruleta = document.getElementById("ruleta");
 
-  document.getElementById("ruleta").addEventListener("click", () => {
-    window.location.href = "Ruleta_vista_general/ruleta.html";
-  });
+  if (inicio) {
+    inicio.addEventListener("click", () => {
+      window.location.href = "/vista/cliente";
+    });
+  }
+
+  if (menu) {
+    menu.addEventListener("click", () => {
+      window.location.href = "/menu";
+    });
+  }
+
+  if (ruleta) {
+    ruleta.addEventListener("click", () => {
+      window.location.href = "/ruleta";
+    });
+  }
 
 });
 

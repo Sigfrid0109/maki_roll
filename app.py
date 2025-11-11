@@ -71,6 +71,17 @@ def vista(nombre_pagina):
         return f"Página no encontrada: {ruta}", 404
 
 # ---------------------------------------------------
+# RUTAS PARA MENÚ Y RULETA
+# ---------------------------------------------------
+@app.route("/menu")
+def vista_menu():
+    return render_template("Menu/templates/menu.html")
+
+@app.route("/ruleta")
+def vista_ruleta():
+    return render_template("Ruleta_vista_general/ruleta.html")
+
+# ---------------------------------------------------
 # REGISTRO DE USUARIOS
 # ---------------------------------------------------
 @app.route("/registrar", methods=["POST"])
