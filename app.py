@@ -9,9 +9,7 @@ from db import get_db
 # ---------------------------------------------------
 app = Flask(
     __name__,
-
-    template_folder="Inicio_de_sesión",  
-    static_folder="Inicio_de_sesión"
+    
     template_folder="Inicio_de_sesión",   # 📁 HTML de login/registro
     static_folder="Inicio_de_sesión"      # 📁 CSS, JS e imágenes
 
