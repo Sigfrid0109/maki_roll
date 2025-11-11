@@ -16,7 +16,7 @@ CORS(app, supports_credentials=True)
 app.secret_key = "clave_super_segura_123"
 
 # ---------------------------------------------------
-# RUTAS PARA ARCHIVOS ESTÁTICOS (CSS, JS, IMG)
+# RUTAS PARA ARCHIVOS ESTÁTICOS
 # ---------------------------------------------------
 @app.route('/css/<path:filename>')
 def css(filename):
@@ -31,7 +31,7 @@ def img(filename):
     return send_from_directory('Inicio_de_sesión/img', filename)
 
 # ---------------------------------------------------
-# RUTAS VISUALES PARA LOGIN / REGISTRO
+# RUTAS VISUALES PRINCIPALES
 # ---------------------------------------------------
 @app.route("/")
 def inicio():
@@ -42,7 +42,7 @@ def registro():
     return render_template("Registro.html")
 
 # ---------------------------------------------------
-# RUTA GENERAL PARA LAS VISTAS DE INICIO
+# RUTA DINÁMICA PARA LAS VISTAS DE INICIO
 # ---------------------------------------------------
 @app.route("/vista/<nombre_pagina>")
 def vista(nombre_pagina):
@@ -136,7 +136,7 @@ def logout():
     return jsonify({"exito": True, "mensaje": "Sesión cerrada correctamente"})
 
 # ---------------------------------------------------
-# RULETA: PREMIOS
+# RULETA DE PREMIOS
 # ---------------------------------------------------
 @app.route("/api/premios", methods=["GET"])
 def obtener_premios():
@@ -174,7 +174,7 @@ def guardar_resultado():
     id_premio = data.get("id_premio")
 
     if not id_usuario or not id_premio:
-        return jsonify({"exito": False, "error": "Faltan datos: id_usuario o id_premio"}), 400
+        return jsonify({"exito": False, "error": "Faltan datos"}), 400
 
     try:
         cursor.execute("""
@@ -242,7 +242,7 @@ def enviar_pedido():
     return jsonify({"mensaje": "Pedido guardado correctamente"})
 
 # ---------------------------------------------------
-# EJECUCIÓN
+# EJECUCIÓN LOCAL
 # ---------------------------------------------------
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
