@@ -1,41 +1,61 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Obtener rol guardado
+  // -----------------------------------
+  // 🔹 MENÚ HAMBURGUESA
+  // -----------------------------------
+  const menuToggle = document.getElementById("menu-toggle");
+  const menu = document.querySelector(".menu");
+  const menuBtn = document.querySelector(".menu-btn");
+
+  if (menuBtn && menuToggle && menu) {
+    menuBtn.addEventListener("click", () => {
+      menu.classList.toggle("open"); // Abre/cierra el menú
+    });
+  }
+
+  // Cierra el menú al hacer clic fuera
+  document.addEventListener("click", (e) => {
+    if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
+      menu.classList.remove("open");
+    }
+  });
+
+  // -----------------------------------
+  // 🔹 REDIRECCIONES SEGÚN ROL
+  // -----------------------------------
   const rol = localStorage.getItem("rol");
 
-  // ✅ Detectar inicio según el rol
   function irInicio() {
     if (rol === "administrador") {
-      window.location.href = "/inicio_admin.html";
+      window.location.href = "/admin";
     } else if (rol === "editor") {
-      window.location.href = "/inicio_editor.html";
+      window.location.href = "/editor";
     } else if (rol === "consultor") {
-      window.location.href = "/inicio_consultor.html";
+      window.location.href = "/consultor";
     } else {
-      window.location.href = "/inicio_usuario.html"; // o la vista general
+      window.location.href = "/cliente.html";
     }
   }
 
-  // 🧭 Asignar eventos
-  document.getElementById("inicio").addEventListener("click", irInicio);
+  // -----------------------------------
+  // 🔹 EVENTOS DEL MENÚ
+  // -----------------------------------
+  const enlaces = {
+    inicio: irInicio,
+    ventas: () => (window.location.href = "/graficas_ventas"),
+    menuEdt: () => (window.location.href = "/menu_admin"),
+    pedidos: () => (window.location.href = "/ver_pedidos"),
+    ruletaPremios: () => (window.location.href = "/resultados"),
+    ruletaConfig: () => (window.location.href = "/ruleta_config"),
+  };
 
-  document.getElementById("ventas").addEventListener("click", () => {
-    window.location.href = "/Graficas_de_venta_adm_consu_edt/Estadisticas/index.html";
-  });
-
-  document.getElementById("menuEdt").addEventListener("click", () => {
-    window.location.href = "/Menu/templates/menu_admin.html";
-  });
-
-  document.getElementById("pedidos").addEventListener("click", () => {
-    window.location.href = "/Pedidos_adm_consu_edt/ver_pedidos.html";
-  });
-
-  document.getElementById("ruletaPremios").addEventListener("click", () => {
-    window.location.href = "/Ruleta_vista_general/resultados.html";
-  });
-
-  document.getElementById("ruletaConfig").addEventListener("click", () => {
-    window.location.href = "/Ruleta_vista_general/ruleta_config.html";
+  Object.keys(enlaces).forEach((id) => {
+    const elemento = document.getElementById(id);
+    if (elemento) {
+      elemento.addEventListener("click", () => {
+        enlaces[id]();
+        menu.classList.remove("open"); // ✅ cierra menú tras click
+      });
+    }
   });
 });
 
