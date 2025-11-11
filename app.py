@@ -4,9 +4,6 @@ import hashlib
 from datetime import datetime
 from db import get_db
 
-# ---------------------------------------------------
-# CONFIGURACIÓN DE LA APLICACIÓN
-# ---------------------------------------------------
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 app.secret_key = "clave_super_segura_123"
@@ -37,6 +34,10 @@ def vista_menu():
 def vista_ruleta():
     return render_template("ruleta.html")
 
+@app.route("/menu_admin")
+def vista_menu_admin():
+    return render_template("menu_admin.html")
+
 # ---------------------------------------------------
 # REGISTRO DE USUARIOS
 # ---------------------------------------------------
@@ -44,8 +45,8 @@ def vista_ruleta():
 def registrar():
     db = get_db()
     cursor = db.cursor(dictionary=True)
-
     data = request.get_json()
+
     nombre = data.get("usuario")
     correo = data.get("correo")
     contraseña = data.get("contraseña")
@@ -76,8 +77,8 @@ def registrar():
 def login():
     db = get_db()
     cursor = db.cursor(dictionary=True)
-
     data = request.get_json()
+
     usuario = data.get("usuario")
     contraseña = data.get("contraseña")
 
@@ -85,7 +86,6 @@ def login():
         return jsonify({"exito": False, "mensaje": "Faltan datos"}), 400
 
     contraseña_hash = hashlib.sha256(contraseña.encode()).hexdigest()
-
     cursor.execute("""
         SELECT id_usuario, usuario, rol
         FROM clientes
@@ -125,7 +125,6 @@ def actualizar_premios():
     db = get_db()
     cursor = db.cursor(dictionary=True)
     data = request.get_json()
-
     cursor.execute("DELETE FROM premios")
     for premio in data.get("premios", []):
         cursor.execute("INSERT INTO premios (nombre) VALUES (%s)", (premio,))
@@ -139,7 +138,8 @@ def guardar_resultado():
     db = get_db()
     cursor = db.cursor(dictionary=True)
     data = request.get_json()
-    id_usuario, id_premio = data.get("id_usuario"), data.get("id_premio")
+    id_usuario = data.get("id_usuario")
+    id_premio = data.get("id_premio")
 
     if not id_usuario or not id_premio:
         return jsonify({"exito": False, "error": "Faltan datos"}), 400
@@ -149,6 +149,58 @@ def guardar_resultado():
     cursor.close()
     db.close()
     return jsonify({"exito": True, "mensaje": "Resultado guardado"})
+
+# ---------------------------------------------------
+# API CRUD DE PLATILLOS (MENÚ)
+# ---------------------------------------------------
+@app.route("/api/platillos", methods=["GET"])
+def obtener_platillos():
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM platillos")
+    datos = cursor.fetchall()
+    cursor.close()
+    db.close()
+    return jsonify(datos)
+
+@app.route("/api/platillos", methods=["POST"])
+def agregar_platillo():
+    data = request.json
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("""
+        INSERT INTO platillos (nombre, descripcion, precio, categoria, imagen, activo)
+        VALUES (%s, %s, %s, %s, %s, %s)
+    """, (data['nombre'], data['descripcion'], data['precio'], data['categoria'], data['imagen'], data['activo']))
+    db.commit()
+    cursor.close()
+    db.close()
+    return jsonify({'mensaje': 'Platillo agregado con éxito'})
+
+@app.route("/api/platillos/<int:id>", methods=["PUT"])
+def editar_platillo(id):
+    data = request.json
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("""
+        UPDATE platillos
+        SET nombre=%s, descripcion=%s, precio=%s, categoria=%s, imagen=%s, activo=%s
+        WHERE id=%s
+    """, (data['nombre'], data['descripcion'], data['precio'], data['categoria'], data['imagen'], data['activo'], id))
+    db.commit()
+    cursor.close()
+    db.close()
+    return jsonify({'mensaje': 'Platillo actualizado'})
+
+@app.route("/api/platillos/<int:id>", methods=["DELETE"])
+def eliminar_platillo(id):
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM platillos WHERE id=%s", (id,))
+    db.commit()
+    cursor.close()
+    db.close()
+    return jsonify({'mensaje': 'Platillo eliminado'})
 
 # ---------------------------------------------------
 # PEDIDOS
