@@ -49,9 +49,10 @@ def registro():
 @app.route("/vista/<nombre_pagina>")
 def vista(nombre_pagina):
     try:
+        print(f"Cargando plantilla: Vistas_de_inicio/{nombre_pagina}.html")
         return render_template(f"Vistas_de_inicio/{nombre_pagina}.html")
     except Exception as e:
-        print(f"Error al cargar la vista: {e}")
+        print(f"⚠️ Error al cargar la vista: {e}")
         return "Página no encontrada", 404
 
 
