@@ -50,8 +50,8 @@ def registro():
 def vista(nombre_pagina):
     try:
         return render_template(f"Vistas_de_inicio/{nombre_pagina}.html")
-    except Exception:
-        return "Página no encontrada", 404
+    except Exception as e:
+        return f"Página no encontrada: {e}", 404
 
 # ---------------------------------------------------
 # REGISTRO DE USUARIOS
