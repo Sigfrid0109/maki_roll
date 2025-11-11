@@ -10,26 +10,41 @@ import os
 # ---------------------------------------------------
 app = Flask(
     __name__,
-    template_folder=".",    # 📁 Flask podrá ver todas las carpetas de HTML
+    template_folder=".",    # 📁 Flask puede acceder a todas las carpetas de HTML
     static_folder="."       # 📁 Flask servirá CSS/JS desde cualquier subcarpeta
 )
 CORS(app, supports_credentials=True)
 app.secret_key = "clave_super_segura_123"
 
 # ---------------------------------------------------
-# RUTAS PARA ARCHIVOS ESTÁTICOS
+# RUTAS ESTÁTICAS PARA "Inicio_de_sesión"
 # ---------------------------------------------------
-@app.route('/css/<path:filename>')
-def css(filename):
+@app.route('/Inicio_de_sesión/css/<path:filename>')
+def sesiones_css(filename):
     return send_from_directory('Inicio_de_sesión/css', filename)
 
-@app.route('/js/<path:filename>')
-def js(filename):
+@app.route('/Inicio_de_sesión/js/<path:filename>')
+def sesiones_js(filename):
     return send_from_directory('Inicio_de_sesión/js', filename)
 
-@app.route('/img/<path:filename>')
-def img(filename):
+@app.route('/Inicio_de_sesión/img/<path:filename>')
+def sesiones_img(filename):
     return send_from_directory('Inicio_de_sesión/img', filename)
+
+# ---------------------------------------------------
+# RUTAS ESTÁTICAS PARA "Vistas_de_inicio"
+# ---------------------------------------------------
+@app.route('/Vistas_de_inicio/css/<path:filename>')
+def vistas_css(filename):
+    return send_from_directory('Vistas_de_inicio/css', filename)
+
+@app.route('/Vistas_de_inicio/js/<path:filename>')
+def vistas_js(filename):
+    return send_from_directory('Vistas_de_inicio/js', filename)
+
+@app.route('/Vistas_de_inicio/img/<path:filename>')
+def vistas_img(filename):
+    return send_from_directory('Vistas_de_inicio/img', filename)
 
 # ---------------------------------------------------
 # RUTAS VISUALES PRINCIPALES
