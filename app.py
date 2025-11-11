@@ -9,13 +9,12 @@ from db import get_db
 # ---------------------------------------------------
 app = Flask(
     __name__,
-<<<<<<< HEAD
+
     template_folder="Inicio_de_sesión",  
     static_folder="Inicio_de_sesión"
-=======
     template_folder="Inicio_de_sesión",   # 📁 HTML de login/registro
     static_folder="Inicio_de_sesión"      # 📁 CSS, JS e imágenes
->>>>>>> arregla-app
+
 )
 CORS(app, supports_credentials=True)
 app.secret_key = "clave_super_segura_123"
