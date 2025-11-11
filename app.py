@@ -55,7 +55,6 @@ def vista(nombre_pagina):
         print(f"⚠️ Error al cargar la vista: {e}")
         return "Página no encontrada", 404
 
-
 # ---------------------------------------------------
 # REGISTRO DE USUARIOS
 # ---------------------------------------------------
