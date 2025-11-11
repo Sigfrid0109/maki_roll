@@ -41,11 +41,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // -----------------------------------
   const enlaces = {
     inicio: irInicio,
-    ventas: () => (window.location.href = "/graficas_ventas.html"),
-    menuEdt: () => (window.location.href = "/menu_admin.html"),
-    pedidos: () => (window.location.href = "/ver_pedidos.html"),
-    ruletaPremios: () => (window.location.href = "/resultados.html"),
-    ruletaConfig: () => (window.location.href = "/ruleta_config.html"),
+    ventas: () => (window.location.href = "/graficas_ventas"),
+    menuEdt: () => (window.location.href = "/menu_admin"),
+    pedidos: () => (window.location.href = "/ver_pedidos"),
+    ruletaPremios: () => (window.location.href = "/resultados"),
+    ruletaConfig: () => (window.location.href = "/ruleta_config"),
   };
 
   Object.keys(enlaces).forEach((id) => {
