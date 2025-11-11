@@ -9,7 +9,8 @@ document.addEventListener("DOMContentLoaded", function() {
         if (registrarLink) {
             registrarLink.addEventListener("click", function(event) {
                 event.preventDefault();
-                window.location.href = "Registro.html";
+                // ✅ ahora usa la ruta Flask
+                window.location.href = "/registro";
             });
         }
 
@@ -21,7 +22,8 @@ document.addEventListener("DOMContentLoaded", function() {
             const contraseña = document.getElementById("contraseña").value;
 
             try {
-                const response = await fetch("http://127.0.0.1:5000/login", {
+                // ✅ sin dirección local, usa la misma URL base (Render o local)
+                const response = await fetch("/login", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ usuario, contraseña })
@@ -29,31 +31,31 @@ document.addEventListener("DOMContentLoaded", function() {
                 const result = await response.json();
 
                 if (result.exito) {
-    const rol = result.rol.trim().toLowerCase();
-    console.log("Rol recibido desde backend:", rol); // 👈
-    alert("Bienvenido 🟢 (" + rol + ")");
+                    const rol = result.rol.trim().toLowerCase();
+                    console.log("Rol recibido desde backend:", rol);
+                    alert("Bienvenido 🟢 (" + rol + ")");
 
-    switch (rol) {
-        case "administrador":
-            window.location.href = "/Vistas_de_inicio/admin.html";
-            break;
-        case "editor":
-            window.location.href = "/Vistas_de_inicio/editor.html";
-            break;
-        case "consultor":
-            window.location.href = "/Vistas_de_inicio/consultor.html";
-            break;
-        case "usuario":
-            window.location.href = "/Vistas_de_inicio/cliente.html";
-            break;
-        default:
-            alert("Rol desconocido: " + rol);
-    }
-} else {
-    alert("Usuario o contraseña incorrectos ❌");
-}
+                    switch (rol) {
+                        case "administrador":
+                            window.location.href = "/Vista_de_inicio/admin.html";
+                            break;
+                        case "editor":
+                            window.location.href = "/Vista_de_inicio/editor.html";
+                            break;
+                        case "consultor":
+                            window.location.href = "/Vista_de_inicio/consultor.html";
+                            break;
+                        case "usuario":
+                            window.location.href = "/Vista_de_inicio/cliente.html";
+                            break;
+                        default:
+                            alert("Rol desconocido: " + rol);
+                    }
+                } else {
+                    alert("Usuario o contraseña incorrectos ❌");
+                }
             } catch (error) {
-                alert("Error de conexión con el servidor");
+                alert("Error de conexión con el servidor ⚠️");
                 console.error(error);
             }
         });
@@ -72,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const contraseña = document.getElementById("contraseña").value;
 
             try {
-                const response = await fetch("http://127.0.0.1:5000/registrar", {
+                const response = await fetch("/registrar", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ usuario, correo, contraseña })
@@ -81,12 +83,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 if (result.exito) {
                     alert("Usuario registrado correctamente 🟩");
-                    window.location.href = "inicio_sesion.html";
+                    // ✅ vuelve al login Flask
+                    window.location.href = "/";
                 } else {
                     alert("Error: " + result.error);
                 }
             } catch (error) {
-                alert("Error de conexión con el servidor");
+                alert("Error de conexión con el servidor ⚠️");
                 console.error(error);
             }
         });
@@ -96,10 +99,12 @@ document.addEventListener("DOMContentLoaded", function() {
         if (volverLink) {
             volverLink.addEventListener("click", function(event) {
                 event.preventDefault();
-                window.location.href = "inicio_sesion.html";
+                // ✅ redirige a la raíz Flask
+                window.location.href = "/";
             });
         }
     }
 });
+
 
 
