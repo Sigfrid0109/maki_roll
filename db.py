@@ -2,9 +2,10 @@ import mysql.connector
 
 def get_db():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="dexter",
-        database="maki_roll_samr",
-        port=3306
+        host="makiroll-restaurantemaki.k.aivencloud.com",
+        user="avnadmin",
+        password="AVNS_LdNXgEsqQmTBRwJGAeq",
+        database="defaultdb",
+        port=25304,
+        ssl_disabled=False
     )
