@@ -10,8 +10,8 @@ from db import get_db
 app = Flask(
     __name__,
     
-    template_folder="Inicio_de_sesión",   # 📁 HTML de login/registro
-    static_folder="Inicio_de_sesión"      # 📁 CSS, JS e imágenes
+    template_folder=".",   # 📁 HTML de login/registro
+    static_folder="."      # 📁 CSS, JS e imágenes
 
 )
 CORS(app, supports_credentials=True)
@@ -48,13 +48,14 @@ def registro():
 # ---------------------------------------------------
 @app.route("/vista/<nombre_pagina>")
 def vista(nombre_pagina):
-    try:
-        print(f"Cargando plantilla: Vistas_de_inicio/{nombre_pagina}.html")
-        return render_template(f"Vistas_de_inicio/{nombre_pagina}.html")
-    except Exception as e:
-        print(f"⚠️ Error al cargar la vista: {e}")
-        return "Página no encontrada", 404
+    ruta = f"Vistas_de_inicio/{nombre_pagina}.html"
+    print(f"🧭 Buscando plantilla en: {ruta}")
 
+    if os.path.exists(os.path.join("Vistas_de_inicio", f"{nombre_pagina}.html")):
+        return render_template(ruta)
+    else:
+        print(f"⚠️ No se encontró el archivo: {ruta}")
+        return f"Página no encontrada: {ruta}", 404
 # ---------------------------------------------------
 # REGISTRO DE USUARIOS
 # ---------------------------------------------------
