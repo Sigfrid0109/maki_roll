@@ -9,14 +9,19 @@ from db import get_db
 # ---------------------------------------------------
 app = Flask(
     __name__,
+<<<<<<< HEAD
     template_folder="Inicio_de_sesión",  
     static_folder="Inicio_de_sesión"
+=======
+    template_folder="Inicio_de_sesión",   # 📁 HTML de login/registro
+    static_folder="Inicio_de_sesión"      # 📁 CSS, JS e imágenes
+>>>>>>> arregla-app
 )
 CORS(app, supports_credentials=True)
 app.secret_key = "clave_super_segura_123"
 
 # ---------------------------------------------------
-# RUTAS PARA ARCHIVOS ESTÁTICOS (CSS, JS, IMG)
+# RUTAS PARA ARCHIVOS ESTÁTICOS
 # ---------------------------------------------------
 @app.route('/css/<path:filename>')
 def css(filename):
@@ -31,7 +36,7 @@ def img(filename):
     return send_from_directory('Inicio_de_sesión/img', filename)
 
 # ---------------------------------------------------
-# RUTAS VISUALES PARA PÁGINAS HTML
+# RUTAS VISUALES PRINCIPALES
 # ---------------------------------------------------
 @app.route("/")
 def inicio():
@@ -40,6 +45,16 @@ def inicio():
 @app.route("/registro")
 def registro():
     return render_template("Registro.html")
+
+# ---------------------------------------------------
+# RUTA DINÁMICA PARA LAS VISTAS DE INICIO
+# ---------------------------------------------------
+@app.route("/vista/<nombre_pagina>")
+def vista(nombre_pagina):
+    try:
+        return render_template(f"Vista_de_inicio/{nombre_pagina}.html")
+    except Exception:
+        return "Página no encontrada", 404
 
 # ---------------------------------------------------
 # REGISTRO DE USUARIOS
@@ -126,7 +141,7 @@ def logout():
     return jsonify({"exito": True, "mensaje": "Sesión cerrada correctamente"})
 
 # ---------------------------------------------------
-# RULETA: PREMIOS
+# RULETA DE PREMIOS
 # ---------------------------------------------------
 @app.route("/api/premios", methods=["GET"])
 def obtener_premios():
@@ -164,7 +179,7 @@ def guardar_resultado():
     id_premio = data.get("id_premio")
 
     if not id_usuario or not id_premio:
-        return jsonify({"exito": False, "error": "Faltan datos: id_usuario o id_premio"}), 400
+        return jsonify({"exito": False, "error": "Faltan datos"}), 400
 
     try:
         cursor.execute("""
@@ -232,7 +247,7 @@ def enviar_pedido():
     return jsonify({"mensaje": "Pedido guardado correctamente"})
 
 # ---------------------------------------------------
-# EJECUCIÓN
+# EJECUCIÓN LOCAL
 # ---------------------------------------------------
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
