@@ -34,17 +34,17 @@ def registrar():
     db = get_db()
     cursor = db.cursor(dictionary=True)
 
-    data = request.json
+    data = request.get_json()  # 🔹 Cambiado a get_json() para evitar errores
     nombre = data.get("usuario")
     correo = data.get("correo")
     contraseña = data.get("contraseña")
-    rol = data.get("rol", "usuario")  # Por defecto será "usuario"
+    rol = data.get("rol", "usuario")
 
     if not nombre or not correo or not contraseña:
-        return jsonify({"exito": False, "error": "Faltan campos requeridos"})
+        return jsonify({"exito": False, "error": "Faltan campos requeridos"}), 400
 
     if rol not in ["administrador", "editor", "consultor", "usuario"]:
-        return jsonify({"exito": False, "error": "Rol no válido"})
+        return jsonify({"exito": False, "error": "Rol no válido"}), 400
 
     contraseña_hash = hashlib.sha256(contraseña.encode()).hexdigest()
 
@@ -56,7 +56,7 @@ def registrar():
         db.commit()
         return jsonify({"exito": True, "mensaje": "Usuario registrado exitosamente"})
     except Exception as e:
-        return jsonify({"exito": False, "error": str(e)})
+        return jsonify({"exito": False, "error": str(e)}), 500
     finally:
         cursor.close()
         db.close()
@@ -69,12 +69,12 @@ def login():
     db = get_db()
     cursor = db.cursor(dictionary=True)
 
-    data = request.json
+    data = request.get_json()
     usuario = data.get("usuario")
     contraseña = data.get("contraseña")
 
     if not usuario or not contraseña:
-        return jsonify({"exito": False, "mensaje": "Faltan datos"})
+        return jsonify({"exito": False, "mensaje": "Faltan datos"}), 400
 
     contraseña_hash = hashlib.sha256(contraseña.encode()).hexdigest()
 
@@ -89,7 +89,6 @@ def login():
     db.close()
 
     if result:
-        # Guardar sesión
         session["id_usuario"] = result["id_usuario"]
         session["usuario"] = result["usuario"]
         session["rol"] = result["rol"]
@@ -128,8 +127,8 @@ def obtener_premios():
 def actualizar_premios():
     db = get_db()
     cursor = db.cursor(dictionary=True)
+    data = request.get_json()
 
-    data = request.json
     cursor.execute("DELETE FROM premios")
 
     for premio in data.get("premios", []):
@@ -146,7 +145,7 @@ def guardar_resultado():
     db = get_db()
     cursor = db.cursor(dictionary=True)
 
-    data = request.json
+    data = request.get_json()
     id_usuario = data.get("id_usuario")
     id_premio = data.get("id_premio")
 
@@ -223,3 +222,4 @@ def enviar_pedido():
 # ---------------------------------------------------
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
+
