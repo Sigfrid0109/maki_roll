@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Resultados de la Ruleta</title>
+  <link rel="stylesheet" href="css/resultados.css">
+</head>
+
+<body>
+
+  <!-- Barra superior -->
+  <div class="topbar">Maki Roll</div>
+
+  <!-- Botón hamburguesa -->
+  <label for="menu-toggle" class="menu-btn">&#9776;</label>
+  <input type="checkbox" id="menu-toggle">
+
+  <!-- Menú lateral -->
+  <div class="menu">
+  <a id="inicio">Inicio</a>
+  <a id="ventas">ventas</a>
+  <a id="Menu">Menu Edt</a>
+  <a id="Pedidos">Pedidos Reg</a>
+  <a id="Ruleta">Ruleta de premios</a>
+  <a id="Ruleta">Ruleta config</a>
+  </div>
+
+  <!-- Título principal -->
+  <h2>🎯 Resultados de la Ruleta</h2>
+
+  <!-- Tabla -->
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Usuario</th>
+        <th>Premio</th>
+        <th>Fecha</th>
+      </tr>
+    </thead>
+    <tbody id="tabla">
+      <tr><td colspan="4">Cargando...</td></tr>
+    </tbody>
+  </table>
+  
+  <script src="js/resultados.js"></script>
+</body>
+</html>
+
+

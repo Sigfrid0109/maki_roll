@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maki Roll - Menú</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/Menu_vista_general/css/menu.css">
+</head>
+<body>
+
+    <!-- Botón para abrir/cerrar -->
+  <label for="menu-toggle" class="menu-btn">&#9776;</label>
+  <input type="checkbox" id="menu-toggle">
+
+  <!-- Menú lateral -->
+<div class="menu">
+  <a id="inicio">Inicio</a>
+  <a id="menu">Menú</a>
+  <a id="pedidos">Pedidos</a>
+  <a id="ruleta">Ruleta de premios</a>
+</div>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>Maki Roll</h1>
+        <div class="carrito-icono" id="carritoIcono">
+            🛒 <span class="carrito-contador" id="carritoContador">0</span>
+        </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+        <!-- Sección Menú -->
+        <section id="menu" class="seccion">
+            <div class="contenedor-menu">
+                <h2 class="texto-platillos">Nuestro Menú</h2>
+                <div class="botones-platillos">
+                    <button class="btn btn-menu activo" data-categoria="todos">Todos</button>
+                    <button class="btn btn-menu" data-categoria="entradas">Entradas</button>
+                    <button class="btn btn-menu" data-categoria="bebidas">Bebidas</button>
+                    <button class="btn btn-menu" data-categoria="ramen">Ramen</button>
+                    <button class="btn btn-menu" data-categoria="arroz">Arroz</button>
+                    <button class="btn btn-menu" data-categoria="sushi">Sushi</button>
+                    <button class="btn btn-menu" data-categoria="postres">Postres</button>
+                </div>
+                <div class="platillos">
+                    <!-- Entradas -->
+                    <div class="platillo" data-platillo="entradas">
+                        <img src="IMAGENES/Entrada brocehetas de queso.jpg" alt="Brochetas de queso">
+                        <h2>Brochetas de Queso</h2>
+                        <p>3 brochetas de queso</p>
+                        <div class="precio">
+                            <p>$59</p>
+                            <button class="btn-comprar" data-producto="Brochetas de queso" data-precio="59">Comprar</button>
+                        </div>
+                    </div>
+                    <div class="platillo" data-platillo="entradas">
+                        <img src="IMAGENES/Entrada brochetas de camaron.jpg" alt="Brochetas de camarón">
+                        <h2>Brochetas de Camarón</h2>
+                        <p>6 brochetas de camarón</p>
+                        <div class="precio">
+                            <p>$45</p>
+                            <button class="btn-comprar" data-producto="Brochetas de camarón" data-precio="45">Comprar</button>
+                        </div>
+                    </div>
+
+                    <!-- Bebidas -->
+                    <div class="platillo" data-platillo="bebidas">
+                        <img src="IMAGENES/Bebida agua.jpg" alt="Agua natural">
+                        <h2>Agua Natural</h2>
+                        <p>Botella de agua natural</p>
+                        <div class="precio">
+                            <p>$30</p>
+                            <button class="btn-comprar" data-producto="Agua natural" data-precio="30">Comprar</button>
+                        </div>
+                    </div>
+                    <div class="platillo" data-platillo="bebidas">
+                        <img src="IMAGENES/Bebida agua de fresa.jpg" alt="Agua de fresa">
+                        <h2>Agua de Fresa</h2>
+                        <p>Agua de fresa refil</p>
+                        <div class="precio">
+                            <p>$50</p>
+                            <button class="btn-comprar" data-producto="Agua de fresa" data-precio="50">Comprar</button>
+                        </div>
+                    </div>
+                    <div class="platillo" data-platillo="bebidas">
+                        <img src="IMAGENES/Bebidas limonada.jpg" alt="Limonada">
+                        <h2>Limonada</h2>
+                        <p>Limonada refil</p>
+                        <div class="precio">
+                            <p>$50</p>
+                            <button class="btn-comprar" data-producto="Limonada" data-precio="50">Comprar</button>
+                        </div>
+                    </div>
+                    <div class="platillo" data-platillo="bebidas">
+                        <img src="IMAGENES/Refrescos.jpg" alt="Refrescos">
+                        <h2>Refrescos</h2>
+                        <p>Refresco refil</p>
+                        <div class="precio">
+                            <p>$55</p>
+                            <button class="btn-comprar" data-producto="Refrescos" data-precio="55">Comprar</button>
+                        </div>
+                    </div>
+
+                    <!-- Ramen -->
+                    <div class="platillo" data-platillo="ramen">
+                        <img src="IMAGENES/Ramen de pollo.jpg" alt="Ramen de pollo">
+                        <h2>Ramen de Pollo</h2>
+                        <p>Ramen individual de pollo</p>
+                        <div class="precio">
+                            <p>$85</p>
+                            <button class="btn-comprar" data-producto="Ramen de pollo" data-precio="85">Comprar</button>
+                        </div>
+                    </div>
+                    <div class="platillo" data-platillo="ramen">
+                        <img src="IMAGENES/Ramen picante.jpg" alt="Ramen picante">
+                        <h2>Ramen Picante</h2>
+                        <p>Ramen individual picante</p>
+                        <div class="precio">
+                            <p>$80</p>
+                            <button class="btn-comprar" data-producto="Ramen picante" data-precio="80">Comprar</button>
+                        </div>
+                    </div>
+                    <div class="platillo" data-platillo="ramen">
+                        <img src="IMAGENES/Ramen tradicional.jpg" alt="Ramen tradicional">
+                        <h2>Ramen Tradicional</h2>
+                        <p>Ramen individual tradicional</p>
+                        <div class="precio">
+                            <p>$80</p>
+                            <button class="btn-comprar" data-producto="Ramen tradicional" data-precio="80">Comprar</button>
+                        </div>
+                    </div>
+
+                    <!-- Arroz -->
+                    <div class="platillo" data-platillo="arroz">
+                        <img src="IMAGENES/Arroz con camarón.jpg" alt="Arroz con camarón">
+                        <h2>Arroz con Camarón</h2>
+                        <p>Arroz individual con camarón</p>
+                        <div class="precio">
+                            <p>$70</p>
+                            <button class="btn-comprar" data-producto="Arroz con camarón" data-precio="70">Comprar</button>
+                        </div>
+                    </div>
+                    <div class="platillo" data-platillo="arroz">
+                        <img src="IMAGENES/Arroz con oriental.jpg" alt="Arroz oriental">
+                        <h2>Arroz Oriental</h2>
+                        <p>Arroz individual oriental</p>
+                        <div class="precio">
+                            <p>$75</p>
+                            <button class="btn-comprar" data-producto="Arroz oriental" data-precio="75">Comprar</button>
+                        </div>
+                    </div>
+
+                    <!-- Sushi -->
+                    <div class="platillo" data-platillo="sushi">
+                        <img src="IMAGENES/Rollo california.jpg" alt="Rollo california">
+                        <h2>Rollo California</h2>
+                        <p>Rollo california individual</p>
+                        <div class="precio">
+                            <p>$180</p>
+                            <button class="btn-comprar" data-producto="Rollo california" data-precio="180">Comprar</button>
+                        </div>
+                    </div>
+                    <div class="platillo" data-platillo="sushi">
+                        <img src="IMAGENES/Rollo midori.jpg" alt="Rollo midori">
+                        <h2>Rollo Midori</h2>
+                        <p>Rollo midori individual</p>
+                        <div class="precio">
+                            <p>$190</p>
+                            <button class="btn-comprar" data-producto="Rollo midori" data-precio="190">Comprar</button>
+                        </div>
+                    </div>
+                    <div class="platillo" data-platillo="sushi">
+                        <img src="IMAGENES/Rollo pastor.jpg" alt="Rollo pastor">
+                        <h2>Rollo Pastor</h2>
+                        <p>Rollo pastor individual</p>
+                        <div class="precio">
+                            <p>$195</p>
+                            <button class="btn-comprar" data-producto="Rollo pastor" data-precio="195">Comprar</button>
+                        </div>
+                    </div>
+                    <div class="platillo" data-platillo="sushi">
+                        <img src="IMAGENES/Sushi norteño.jpg" alt="Sushi norteño">
+                        <h2>Rollo Norteño</h2>
+                        <p>Rollo norteño individual</p>
+                        <div class="precio">
+                            <p>$195</p>
+                            <button class="btn-comprar" data-producto="Rollo norteño" data-precio="195">Comprar</button>
+                        </div>
+                    </div>
+                    <div class="platillo" data-platillo="sushi">
+                        <img src="IMAGENES/Sushi de camarón.jpg" alt="Sushi de camarón">
+                        <h2>Rollo Fresco de Camarón</h2>
+                        <p>Rollo fresco de camarón individual</p>
+                        <div class="precio">
+                            <p>$180</p>
+                            <button class="btn-comprar" data-producto="Rollo fresco de camarón" data-precio="180">Comprar</button>
+                        </div>
+                    </div>
+                    <div class="platillo" data-platillo="sushi">
+                        <img src="IMAGENES/Sushi de pollo.jpeg" alt="Sushi de pollo">
+                        <h2>Rollo Fresco de Pollo</h2>
+                        <p>Rollo fresco de pollo individual</p>
+                        <div class="precio">
+                            <p>$185</p>
+                            <button class="btn-comprar" data-producto="Rollo fresco de pollo" data-precio="185">Comprar</button>
+                        </div>
+                    </div>
+                    <div class="platillo" data-platillo="sushi">
+                        <img src="IMAGENES/Sushi de salmon.jpg" alt="Sushi de salmón">
+                        <h2>Rollo Fresco de Salmón</h2>
+                        <p>Rollo fresco de salmón individual</p>
+                        <div class="precio">
+                            <p>$190</p>
+                            <button class="btn-comprar" data-producto="Rollo fresco de salmón" data-precio="190">Comprar</button>
+                        </div>
+                    </div>
+
+                    <!-- Postres -->
+                    <div class="platillo" data-platillo="postres">
+                        <img src="IMAGENES/Postre churros.jpg" alt="Churros">
+                        <h2>Churros</h2>
+                        <p>4 churros de azucar con cajeta</p>
+                        <div class="precio">
+                            <p>$60</p>
+                            <button class="btn-comprar" data-producto="Churros" data-precio="60">Comprar</button>
+                        </div>
+                    </div>
+                    <div class="platillo" data-platillo="postres">
+                        <img src="IMAGENES/Postre pastel de chocolate.jpg" alt="Pastel de chocolate">
+                        <h2>Pastel de Chocolate</h2>
+                        <p>Rebanada de pastel de chocolate</p>
+                        <div class="precio">
+                            <p>$120</p>
+                            <button class="btn-comprar" data-producto="Pastel de chocolate" data-precio="120">Comprar</button>
+                        </div>
+                    </div>
+                    <div class="platillo" data-platillo="postres">
+                        <img src="IMAGENES/Postre tarta de queso.avif" alt="Tarta de queso" onerror="this.src='IMAGENES/Postre pastel de chocolate.jpg'">
+                        <h2>Tarta de Queso</h2>
+                        <p>Rebanada de tarta de queso</p>
+                        <div class="precio">
+                            <p>$120</p>
+                            <button class="btn-comprar" data-producto="Tarta de queso" data-precio="120">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+  <!-- SCRIPT AGREGADO (controla la visibilidad de platillos agotados) -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Obtener disponibilidad desde localStorage
+      const disponibilidad = JSON.parse(localStorage.getItem("disponibilidad")) || {};
+
+      // Buscar todos los platillos
+      const platillos = document.querySelectorAll(".platillo");
+
+      platillos.forEach(platillo => {
+        const nombre = platillo.querySelector("h2").textContent.trim();
+
+        // Si el platillo está marcado como "Agotado" en pedidos copy.html, se oculta
+        if (disponibilidad[nombre] === "0") {
+          platillo.style.display = "none";
+        }
+      });
+    });
+  </script>
+  <!-- 🔼 FIN DEL SCRIPT AGREGADO -->       
+
+        <!-- Sección Carrito -->
+        <section id="carrito" class="carrito-section">
+            <div class="carrito-container">
+                <h2>🛒 Mi Carrito</h2>
+                <div id="lista-carrito" class="lista-carrito">
+                    <p class="carrito-vacio" id="carritoVacio">Tu carrito está vacío</p>
+                </div>
+                <div class="total-carrito">
+                    <h3>Total: $<span id="total">0</span></h3>
+                    <button id="realizar-pedido" class="btn-pedido">Realizar Pedido</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Formulario de Pedido -->
+    <dialog id="formularioPedido">
+        <div class="dialog-content">
+            <h2>REALIZA TU PEDIDO</h2>
+            <form id="formPedido">
+                <div class="form-group">
+                    <label for="nombre">Nombre del cliente:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="usuario">Nombre del usuario:</label>
+                    <input type="text" id="usuario" name="usuario" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="direccion">Dirección:</label>
+                    <input type="text" id="direccion" name="direccion" placeholder="Calle, Col, Numero, etc." required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="telefono">Teléfono:</label>
+                    <input type="tel" id="telefono" name="telefono" placeholder="EJ: 8123456789" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="codigo-postal">Código Postal:</label>
+                    <input type="text" id="codigo-postal" name="codigo-postal" placeholder="EJ: 66521" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tipo-vivienda">Tipo de Vivienda:</label>
+                    <select id="tipo-vivienda" name="tipo-vivienda" required>
+                        <option value="">Selecciona...</option>
+                        <option value="casa">Casa</option>
+                        <option value="privada">Privada</option>
+                        <option value="oficina">Oficina</option>
+                        <option value="escuela">Escuela</option>
+                        <option value="departamento">Departamento</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="referencia">Referencia de Ubicación:</label>
+                    <input type="text" id="referencia" name="referencia" placeholder="EJ: Enfrente del OXXO" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="comentarios">Comentarios adicionales:</label>
+                    <textarea id="comentarios" name="comentarios" placeholder="EJ: Sin picante, por favor"></textarea>
+                </div>
+                
+                <input type="hidden" id="platillo" name="platillo">
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn-confirmar">Enviar pedido</button>
+                    <button type="button" id="cancelarPedido" class="btn-cancelar">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+<script>
+let platilloSeleccionado = ""; // Variable global
+
+// Detectar clic en cualquier botón "Comprar"
+document.querySelectorAll(".btn-comprar").forEach(boton => {
+  boton.addEventListener("click", () => {
+    // Obtiene el nombre real del platillo
+    platilloSeleccionado = boton.getAttribute("data-producto");
+
+    // Guarda el nombre en el campo oculto
+    document.getElementById("platillo").value = platilloSeleccionado;
+
+    // Abre el formulario
+    document.getElementById("formularioPedido").showModal();
+  });
+});
+
+// Botón "Cancelar" del formulario
+document.getElementById("cancelarPedido").addEventListener("click", () => {
+  document.getElementById("formularioPedido").close();
+});
+
+// Enviar pedido al backend Flask
+document.getElementById("formPedido").addEventListener("submit", async function(event) {
+  event.preventDefault();
+
+  const datos = {
+    platillo: document.getElementById("platillo").value,
+    nombre: document.getElementById("nombre").value,
+    usuario: document.getElementById("usuario").value,
+    direccion: document.getElementById("direccion").value,
+    telefono: document.getElementById("telefono").value,
+    codigo_postal: document.getElementById("codigo-postal").value,
+    tipo_vivienda: document.getElementById("tipo-vivienda").value,
+    referencia: document.getElementById("referencia").value,
+    comentarios: document.getElementById("comentarios").value
+  };
+
+  try {
+    const respuesta = await fetch("http://127.0.0.1:5000/enviar_pedido", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(datos)
+    });
+
+    const resultado = await respuesta.json();
+    alert(resultado.mensaje);
+
+    document.getElementById("formPedido").reset();
+    document.getElementById("formularioPedido").close();
+
+  } catch (error) {
+    console.error("Error al enviar el pedido:", error);
+    alert("Hubo un error al enviar tu pedido. Inténtalo nuevamente.");
+  }
+});
+</script>
+
+
+
+
+
+
+    <script src="/Menu_vista_general/js/menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Configurar Ruleta</title>
+  <link rel="stylesheet" href="css/ruleta_config.css">
+</head>
+<body>
+
+  <!-- 🔸 Barra superior -->
+  <header class="navbar">
+    <label for="menu-toggle" class="menu-btn">&#9776;</label>
+    <h1 class="logo">Maki Roll</h1>
+  </header>
+
+  <!-- Toggle del menú -->
+  <input type="checkbox" id="menu-toggle">
+
+  <!-- Menú lateral -->
+  <nav class="menu">
+  <a id="inicio">Inicio</a>
+  <a id="ventas">ventas</a>
+  <a id="Menu">Menu Edt</a>
+  <a id="Pedidos">Pedidos Reg</a>
+  <a id="Ruleta">Ruleta de premios</a>
+  <a id="Ruleta">Ruleta config</a>
+  </nav>
+
+  <!-- Contenedor de configuración -->
+  <div class="container">
+    <h2>⚙️ Configurar Premios</h2>
+    <div id="lista"></div>
+
+    <input type="text" id="nuevo" placeholder="Nuevo premio">
+    <button id="agregar">Agregar</button>
+    <button id="guardar">Guardar cambios</button>
+  </div>
+
+  <script src="js/ruleta_config.js"></script>
+</body>
+</html>
+
+
+

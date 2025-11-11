@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maki Roll - Menú</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>Maki Roll</h1>
+        <div class="carrito-icono" id="carritoIcono">
+            🛒 <span class="carrito-contador" id="carritoContador">0</span>
+        </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+        <!-- Sección Menú -->
+        <section id="menu" class="seccion">
+            <div class="contenedor-menu">
+                <h2 class="texto-platillos">Nuestro Menú</h2>
+                <div class="botones-platillos">
+                    <button class="btn btn-menu activo" data-categoria="todos">Todos</button>
+                    <button class="btn btn-menu" data-categoria="entradas">Entradas</button>
+                    <button class="btn btn-menu" data-categoria="bebidas">Bebidas</button>
+                    <button class="btn btn-menu" data-categoria="ramen">Ramen</button>
+                    <button class="btn btn-menu" data-categoria="arroz">Arroz</button>
+                    <button class="btn btn-menu" data-categoria="sushi">Sushi</button>
+                    <button class="btn btn-menu" data-categoria="postres">Postres</button>
+                </div>
+                 <!-- Grid de platillos cargados desde la BD -->
+                <div class="platillos">
+                    {% for p in platillos %}
+                        <div class="platillo" data-platillo="{{ p.categoria }}">
+                            <img src="{{ url_for('static', filename=p.imagen) }}" alt="{{ p.nombre }}">
+                            <h2>{{ p.nombre }}</h2>
+                            <p>{{ p.descripcion }}</p>
+                            <div class="precio">
+                                <p>${{ '%.2f' | format(p.precio) }}</p>
+                                <button class="btn-comprar" data-producto="{{ p.nombre }}" data-precio="{{ p.precio }}">Comprar</button>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p style="text-align:center;">No hay platillos disponibles en este momento.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+        <!-- Sección Carrito -->
+        <section id="carrito" class="carrito-section">
+            <div class="carrito-container">
+                <h2>🛒 Mi Carrito</h2>
+                <div id="lista-carrito" class="lista-carrito">
+                    <p class="carrito-vacio" id="carritoVacio">Tu carrito está vacío</p>
+                </div>
+                <div class="total-carrito">
+                    <h3>Total: $<span id="total">0</span></h3>
+                    <button id="realizar-pedido" class="btn-pedido">Realizar Pedido</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Formulario de Pedido -->
+    <dialog id="formularioPedido">
+        <div class="dialog-content">
+            <h2>REALIZA TU PEDIDO</h2>
+            <form id="formPedido">
+                <div class="form-group">
+                    <label for="nombre">Nombre del cliente:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="usuario">Nombre del usuario:</label>
+                    <input type="text" id="usuario" name="usuario" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="direccion">Dirección:</label>
+                    <input type="text" id="direccion" name="direccion" placeholder="Calle, Col, Numero, etc." required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="telefono">Teléfono:</label>
+                    <input type="tel" id="telefono" name="telefono" placeholder="EJ: 8123456789" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="codigo-postal">Código Postal:</label>
+                    <input type="text" id="codigo-postal" name="codigo-postal" placeholder="EJ: 66521" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tipo-vivienda">Tipo de Vivienda:</label>
+                    <select id="tipo-vivienda" name="tipo-vivienda" required>
+                        <option value="">Selecciona...</option>
+                        <option value="casa">Casa</option>
+                        <option value="privada">Privada</option>
+                        <option value="oficina">Oficina</option>
+                        <option value="escuela">Escuela</option>
+                        <option value="departamento">Departamento</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="referencia">Referencia de Ubicación:</label>
+                    <input type="text" id="referencia" name="referencia" placeholder="EJ: Enfrente del OXXO" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="comentarios">Comentarios adicionales:</label>
+                    <textarea id="comentarios" name="comentarios" placeholder="EJ: Sin picante, por favor"></textarea>
+                </div>
+                
+                <div class="form-buttons">
+                    <button type="submit" class="btn-confirmar">Enviar pedido</button>
+                    <button type="button" id="cancelarPedido" class="btn-cancelar">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
+</body>
+</html>

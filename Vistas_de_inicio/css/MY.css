@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+:root{
+    --padding-container: 100px 0; 
+    --color-title: #ffffff;
+
+}
+
+body{
+font-family: "Montserrat", sans-serif;
+}
+
+/*  esto es el boton de aja/
+/* Ocultar */
+#menu-toggle {
+  display: none;
+}
+
+/* Estilo del botón */
+.menu-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px; 
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 9999;
+  color: #fff;
+}
+
+/* LO del menú */
+.menu {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  background: rgba(209, 102, 102, 0);
+  color: rgb(185, 239, 78);
+  padding-top: 60px;
+  transition: 0.3s;
+  backdrop-filter: blur(5px);
+  z-index: 100;
+}
+
+.menu a {
+  display: block;
+  padding: 15px;
+  color: rgb(255, 223, 223);
+  text-decoration: none;
+  border-bottom: 1px solid #444;
+}
+
+.menu a:hover {
+  background: #444;
+}
+
+/* Cuando el checkbox está activado */
+#menu-toggle:checked ~ .menu {
+  left: 0;
+}
+
+/* Contenido principal */
+.contenido {
+  padding: 20px;
+}
+
+/*esto ya es el texto del inicio*/
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: var(--padding-container);
+}
+
+.hero {
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    max-height: 800px;
+    position: relative;
+    display: grid;
+    grid-template-rows: 100px 1fr;
+    color: #fff;
+    
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(180deg, #0000008c 0%, #0000008c 100%), url("/Vistas_de_inicio/img/restaurante.jpg");
+    background-size: cover;
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+    z-index: -1;
+}
+
+
+/* Nav */
+.nav {
+  position: relative; /* para que el logo se quede */
+  justify-content: flex-end; /* mantiene los enlaces a la derecha */
+}
+
+.nav__logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.nav__title {
+  font-weight: 500;
+  font-size: 1.8rem;
+  color: #fff;
+  margin: 0;
+}
+
+.nav {
+    --padding-container: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.nav__title {
+    font-weight: 300;
+}
+
+.nav__link {
+    margin-left: auto;
+    padding: 0;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    gap: 2em;
+}
+
+.nav__items {
+    list-style: none;
+}
+
+.nav__links {
+    color: #fff;
+    text-decoration: none;
+}
+
+.nav__menu {
+    margin-left: auto;
+    cursor: pointer;
+    display: none;
+}
+
+.nav__img {
+    display: block;
+    width: 30px;
+}
+
+
+.nav__close {
+    display: var(--show, none);
+}
+
+
+/* Hero container */
+
+.hero__container {
+    max-width: 800px;
+    --padding-container: 0;
+    display: grid;
+    grid-auto-rows: max-content;
+    align-content: center;
+    gap: 1em;
+    padding-bottom: 100px;
+    text-align: center;
+}
+
+.hero__title {
+    font-size: 3rem;
+}
+
+.hero__paragraph {
+    margin-bottom: 20px;
+}
+
+/* 🔹 Estilo para el menú del usuario */
+    .user-menu {
+      position: relative;
+      display: inline-block;
+    }
+
+    .user-dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+      border-radius: 8px;
+      z-index: 1000;
+      min-width: 150px;
+    }
+
+    .user-dropdown a {
+      display: block;
+      padding: 10px;
+      color: black;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .user-dropdown a:hover {
+      background-color: #f2f2f2;
+    }
+
+    .user-menu:hover .user-dropdown {
+      display: block;
+    }

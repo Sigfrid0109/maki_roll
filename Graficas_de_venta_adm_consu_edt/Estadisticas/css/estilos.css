@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+
+:root{
+  --color-principal:#000000;
+  --color-fondo:#f8f8f8;
+  --texto:#333;
+  --color-accent:#555555;
+}
+
+/* reset básico */
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:'Montserrat',sans-serif;
+  background:var(--color-fondo);
+  color:var(--texto);
+  min-height:100vh;
+}
+/*  esto es el boton de aja/
+/* Ocultar */
+#menu-toggle {
+  display: none;
+}
+
+/* Estilo del botón */
+.menu-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px; 
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 9999;
+  color: #fff;
+}
+
+/* LO del menú */
+.menu {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  background: rgba(209, 102, 102, 0);
+  color: rgb(185, 239, 78);
+  padding-top: 60px;
+  transition: 0.3s;
+  backdrop-filter: blur(5px);
+  z-index: 100;
+}
+
+.menu a {
+  display: block;
+  padding: 15px;
+  color: rgb(246, 0, 0);
+  text-decoration: none;
+  border-bottom: 1px solid #444;
+}
+
+.menu a:hover {
+  background: #444;
+}
+
+/* Cuando el checkbox está activado */
+#menu-toggle:checked ~ .menu {
+  left: 0;
+}
+/* header */
+/* ======== HEADER CENTRADO ======== */
+header {
+  background: var(--color-principal);
+  color: #fff;
+  padding: 30px 20px; /* más alto y con espacio a los lados */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  text-align: center; /* centra horizontalmente el texto */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+header p {
+  font-size: 1.2rem;
+  font-weight: 400;
+  opacity: 0.9;
+  margin: 0;
+}
+
+
+.menu-toggle {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 8px;
+  position: absolute;
+  left: 18px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.menu-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.header-text {
+  flex: 1;
+  text-align: center;
+}
+
+header h1{
+  font-size:1.5rem;
+  font-weight:700;
+  margin: 0;
+}
+
+/* contenedor */
+.contenedor{
+  max-width:1000px;
+  margin:30px auto;
+  padding:18px;
+}
+
+/* título principal */
+.titulo-principal {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  text-align: center;
+  margin-bottom: 30px;
+  border: 1px solid #eaeaea;
+}
+
+.titulo-principal h2 {
+  color: #333;
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* grid de tarjetas */
+.resumen{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:22px;
+}
+
+/* tarjeta */
+.tarjeta{
+  background:#fff;
+  border-radius:12px;
+  padding:18px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.06);
+  text-align:center;
+  transition:transform .25s ease, box-shadow .25s ease;
+  border: 1px solid #eaeaea;
+}
+.tarjeta:hover{
+  transform:translateY(-6px);
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+.tarjeta h3{color:var(--color-principal);margin-bottom:8px;font-weight:600}
+.tarjeta p{color:#444;margin-bottom:10px}
+
+/* barra */
+.barra{
+  width:100%;
+  height:14px;
+  background:#eee;
+  border-radius:10px;
+  overflow:hidden;
+}
+.relleno{
+  height:100%;
+  width:0%;
+  border-radius:10px;
+  background:linear-gradient(90deg, #444, #666);
+  transition:width 700ms ease;
+}
+
+/* pedidos y ventas */
+.pedidos-ventas{
+  margin-top:34px;
+  background:#fff;
+  padding:28px;
+  border-radius:12px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.06);
+  text-align:center;
+  border: 1px solid #eaeaea;
+}
+.pedidos-ventas h2{color:var(--color-principal);margin-bottom:18px;font-weight:600}
+
+.contador{
+  display:flex;
+  justify-content:center;
+  gap:80px;
+  flex-wrap:wrap;
+}
+.dato h3{color:var(--color-principal);margin-bottom:8px;font-weight:600}
+.dato p{font-size:1.8rem;font-weight:700;color:#222}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .menu-toggle {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .contador {
+    gap: 40px;
+  }
+  
+  .titulo-principal h2 {
+    font-size: 1.4rem;
+  }
+  
+  header h1 {
+    font-size: 1.3rem;
+  }
+}

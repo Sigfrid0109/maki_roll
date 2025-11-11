@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/ruleta.css">
+</head>
+<body>
+     <!-- Botón para abrir/cerrar -->
+  <label for="menu-toggle" class="menu-btn">&#9776;</label>
+  <input type="checkbox" id="menu-toggle">
+
+  <!-- Menú lateral -->
+<div class="menu">
+  <a id="inicio">Inicio</a>
+  <a id="menu">Menú</a>
+  <a id="pedidos">Pedidos</a>
+  <a id="ruleta">Ruleta de premios</a>
+</div>
+
+    <!-- Sección Ruleta -->
+        <section id="ruleta" class="seccion">
+            <div class="ruleta-completa">
+                <div class="promociones-info">
+                    <h2>Promociones Especiales</h2>
+                    <div class="promociones-grid">
+                        <div class="promocion">
+                            <h3>🎉 2x1 en Postres</h3>
+                            <p>Todos los martes y jueves</p>
+                        </div>
+                        <div class="promocion">
+                            <h3>🍣 20% de Descuento</h3>
+                            <p>En pedidos mayores a $300</p>
+                        </div>
+                        <div class="promocion">
+                            <h3>🥤 Refill Gratis</h3>
+                            <p>En todas nuestras bebidas</p>
+                        </div>
+                        <div class="promocion">
+                            <h3>🎁 Gira la Ruleta</h3>
+                            <p>Y gana descuentos especiales</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ruleta-section">
+                    <h3>Gira la Ruleta y Gana Premios</h3>
+                    <div class="ruleta-wrapper">
+                        <button id="spin">Girar</button>
+                        <span class="arrow"></span>
+                        <div class="container">
+                            <div class="one">De nuevo</div>
+                            <div class="two">5%</div>
+                            <div class="three">10%</div>
+                            <div class="four">15%</div>
+                            <div class="five">30%</div>
+                            <div class="six">60%</div>
+                            <div class="seven">40%</div>
+                            <div class="eight">50%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+         <!-- Modal de resultados de ruleta -->
+    <dialog id="resultDialog">
+        <div class="dialog-content">
+            <h2>¡Felicidades!</h2>
+            <p>Has ganado: <span id="premioGanado"></span></p>
+            <button id="closeDialog">Cerrar</button>
+        </div>
+    </dialog>
+        <script src="js/ruleta.js"></script>
+</body>
+</html>
+ 
+ 
+ 

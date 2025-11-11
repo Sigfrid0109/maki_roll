@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro de Pedidos</title>
+  <link rel="stylesheet" href="/Pedidos_adm_consu_edt/css/ver_pedidos.css">
+</head>
+<body>
+
+  <!-- ENCABEZADO PRINCIPAL -->
+  <section class="contenido">
+    <div class="titulo-seccion">
+      <h2>REGISTRO DE PEDIDOS</h2>
+      <h1>Maki Roll</h1>
+    </div>
+  </section>
+
+  
+
+  <!-- Botón para abrir/cerrar -->
+  <label for="menu-toggle" class="menu-btn">&#9776;</label>
+  <input type="checkbox" id="menu-toggle">
+
+  <!-- Menú lateral -->
+<div class="menu">
+  <a id="inicio">Inicio</a>
+  <a id="ventas">ventas</a>
+  <a id="Menu">Menu Edt</a>
+  <a id="Pedidos">Pedidos Reg</a>
+  <a id="Ruleta">Ruleta de premios</a>
+  <a id="Ruleta">Ruleta config</a>
+</div>
+
+
+  
+ 
+  </div>
+
+  <table id="tablaPedidos">
+    <thead>
+      <tr>
+        <th>ID Pedido</th>
+        <th>Platillo</th>
+        <th>Cliente</th>
+        <th>Usuario</th>
+        <th>Dirección</th>
+        <th>Teléfono</th>
+        <th>Código Postal</th>
+        <th>Tipo Vivienda</th>
+        <th>Referencia</th>
+        <th>Comentarios</th>
+        <th>Fecha y Hora</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <button id="recargar">Recargar</button>
+
+  <script>
+    async function cargarPedidos() {
+      try {
+        const respuesta = await fetch("http://127.0.0.1:5000/obtener_pedidos");
+        const pedidos = await respuesta.json();
+
+        const cuerpoTabla = document.querySelector("#tablaPedidos tbody");
+        cuerpoTabla.innerHTML = "";
+
+        pedidos.forEach(p => {
+          const fila = document.createElement("tr");
+          fila.innerHTML = `
+            <td>${p.pedido_id}</td>
+            <td>${p.platillo}</td>
+            <td>${p.nombre_cliente || "—"}</td>
+            <td>${p.nombre_usuario || "—"}</td>
+            <td>${p.direccion || "—"}</td>
+            <td>${p.telefono || "—"}</td>
+            <td>${p.codigo_postal || "—"}</td>
+            <td>${p.tipo_vivienda || "—"}</td>
+            <td>${p.referencia || "—"}</td>
+            <td>${p.comentarios || "—"}</td>
+            <td>${p.fecha_hora || "—"}</td>
+          `;
+          cuerpoTabla.appendChild(fila);
+        });
+      } catch (error) {
+        console.error("Error al cargar pedidos:", error);
+        alert("Hubo un error al obtener los pedidos");
+      }
+    }
+
+    document.getElementById("recargar").addEventListener("click", cargarPedidos);
+    cargarPedidos();
+  </script>
+
+      <script src="js/ver_pedidos.js"></script>
+
+
+</body>
+</html>

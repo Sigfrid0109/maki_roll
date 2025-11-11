@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador - Maki Roll</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+
+    <!-- 🔸 Barra superior -->
+    <header class="navbar">
+        <label for="menu-toggle" class="menu-btn">&#9776;</label>
+        <h1 class="logo"> Maki Roll</h1>
+    </header>
+
+    <!-- Toggle oculto -->
+    <input type="checkbox" id="menu-toggle">
+
+    <!-- Menú lateral -->
+    <nav class="menu">
+        <a href="#">Inicio</a>
+        <a href="#">Ventas</a>
+        <a href="#">Menú</a>
+        <a href="#">Pedidos</a>
+        <a href="#">Gestión del inventario</a>
+        <a href="#">Premios de la ruleta</a>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main class="contenido">
+        <h2>Panel de Administración</h2>
+        <button id="btnAgregar" class="btn-agregar">➕ Agregar Platillo</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Imagen</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Categoría</th>
+                    <th>Activo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tablaPlatillos"></tbody>
+        </table>
+    </main>
+
+    <!-- Modal -->
+    <dialog id="modalPlatillo">
+        <form id="formPlatillo">
+            <h2 id="tituloModal">Agregar Platillo</h2>
+            <input type="hidden" id="id">
+            <label>Nombre:</label>
+            <input type="text" id="nombre" required>
+            <label>Descripción:</label>
+            <input type="text" id="descripcion">
+            <label>Precio:</label>
+            <input type="number" step="0.01" id="precio" required>
+            <label>Categoría:</label>
+            <input type="text" id="categoria" required>
+            <label>Imagen (ruta):</label>
+            <input type="text" id="imagen">
+            <label>Activo:</label>
+            <input type="checkbox" id="activo">
+            <div class="botones">
+                <button type="submit" class="btn-guardar">Guardar</button>
+                <button type="button" id="btnCancelar" class="btn-cancelar">Cancelar</button>
+            </div>
+        </form>
+    </dialog>
+
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+</body>
+</html>
+
