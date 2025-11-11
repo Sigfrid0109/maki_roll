@@ -51,7 +51,9 @@ def vista(nombre_pagina):
     try:
         return render_template(f"Vistas_de_inicio/{nombre_pagina}.html")
     except Exception as e:
-        return f"Página no encontrada: {e}", 404
+        print(f"Error al cargar la vista: {e}")
+        return "Página no encontrada", 404
+
 
 # ---------------------------------------------------
 # REGISTRO DE USUARIOS
