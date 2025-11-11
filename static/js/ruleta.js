@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  if (menu) {
+  if (menu_pedidos) {
     menu.addEventListener("click", () => {
       window.location.href = "/menu";
     });
