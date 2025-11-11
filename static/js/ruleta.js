@@ -2,8 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Enlaces del menú
   const inicio = document.getElementById("inicio");
-  const menu = document.getElementById("menu");
-  const pedidos = document.getElementById("pedidos");
+  const menu = document.getElementById("menu_pedidos");
   const ruleta = document.getElementById("ruleta");
 
   if (inicio) {
@@ -18,11 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  if (pedidos) {
-    pedidos.addEventListener("click", () => {
-      window.location.href = "/pedidos";
-    });
-  }
 
   if (ruleta) {
     ruleta.addEventListener("click", () => {
