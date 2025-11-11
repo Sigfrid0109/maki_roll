@@ -153,54 +153,93 @@ def guardar_resultado():
 # ---------------------------------------------------
 # API CRUD DE PLATILLOS (MENÚ)
 # ---------------------------------------------------
+
+# 🟢 OBTENER TODOS LOS PLATILLOS
 @app.route("/api/platillos", methods=["GET"])
 def obtener_platillos():
     db = get_db()
     cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM item_menu")
-    datos = cursor.fetchall()
-    cursor.close()
-    db.close()
-    return jsonify(datos)
+    try:
+        cursor.execute("SELECT * FROM item_menu WHERE activo = 1")
+        datos = cursor.fetchall()
+        return jsonify(datos)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()
 
+# 🟡 AGREGAR UN NUEVO PLATILLO
 @app.route("/api/platillos", methods=["POST"])
 def agregar_platillo():
-    data = request.json
+    data = request.get_json()
     db = get_db()
     cursor = db.cursor()
-    cursor.execute("""
-        INSERT INTO item_menu (nombre, descripcion, precio, categoria, imagen, activo)
-        VALUES (%s, %s, %s, %s, %s, %s)
-    """, (data['nombre'], data['descripcion'], data['precio'], data['categoria'], data['imagen'], data['activo']))
-    db.commit()
-    cursor.close()
-    db.close()
-    return jsonify({'mensaje': 'Platillo agregado con éxito'})
+    try:
+        cursor.execute("""
+            INSERT INTO item_menu (nombre, descripcion, precio, categoria, imagen, activo)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """, (
+            data.get("nombre"),
+            data.get("descripcion"),
+            data.get("precio"),
+            data.get("categoria"),
+            data.get("imagen"),
+            data.get("activo", True)
+        ))
+        db.commit()
+        return jsonify({"mensaje": "Platillo agregado con éxito"}), 201
+    except Exception as e:
+        db.rollback()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()
 
+# 🟠 EDITAR UN PLATILLO EXISTENTE
 @app.route("/api/platillos/<int:id>", methods=["PUT"])
 def editar_platillo(id):
-    data = request.json
+    data = request.get_json()
     db = get_db()
     cursor = db.cursor()
-    cursor.execute("""
-        UPDATE item_menu
-        SET nombre=%s, descripcion=%s, precio=%s, categoria=%s, imagen=%s, activo=%s
-        WHERE id_item=%s
-    """, (data['nombre'], data['descripcion'], data['precio'], data['categoria'], data['imagen'], data['activo'], id))
-    db.commit()
-    cursor.close()
-    db.close()
-    return jsonify({'mensaje': 'Platillo actualizado'})
+    try:
+        cursor.execute("""
+            UPDATE item_menu
+            SET nombre=%s, descripcion=%s, precio=%s, categoria=%s, imagen=%s, activo=%s
+            WHERE id_item=%s
+        """, (
+            data.get("nombre"),
+            data.get("descripcion"),
+            data.get("precio"),
+            data.get("categoria"),
+            data.get("imagen"),
+            data.get("activo", True),
+            id
+        ))
+        db.commit()
+        return jsonify({"mensaje": "Platillo actualizado correctamente"})
+    except Exception as e:
+        db.rollback()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()
 
+# 🔴 ELIMINAR UN PLATILLO
 @app.route("/api/platillos/<int:id>", methods=["DELETE"])
 def eliminar_platillo(id):
     db = get_db()
     cursor = db.cursor()
-    cursor.execute("DELETE FROM item_menu WHERE id_item=%s", (id,))
-    db.commit()
-    cursor.close()
-    db.close()
-    return jsonify({'mensaje': 'Platillo eliminado'})
+    try:
+        cursor.execute("DELETE FROM item_menu WHERE id_item = %s", (id,))
+        db.commit()
+        return jsonify({"mensaje": "Platillo eliminado correctamente"})
+    except Exception as e:
+        db.rollback()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()
 
 
 # ---------------------------------------------------
