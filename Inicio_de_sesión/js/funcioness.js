@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (registrarLink) {
             registrarLink.addEventListener("click", function(event) {
                 event.preventDefault();
-                // ✅ ahora usa la ruta Flask
+                // ✅ Ruta Flask
                 window.location.href = "/registro";
             });
         }
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const contraseña = document.getElementById("contraseña").value;
 
             try {
-                // ✅ sin dirección local, usa la misma URL base (Render o local)
+                // ✅ En Render y local usa misma URL base
                 const response = await fetch("/login", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -37,16 +37,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     switch (rol) {
                         case "administrador":
-                            window.location.href = "/Vistas_de_inicio/admin.html";
+                            window.location.href = "/vista/admin";
                             break;
                         case "editor":
-                            window.location.href = "/Vistas_de_inicio/editor.html";
+                            window.location.href = "/vista/editor";
                             break;
                         case "consultor":
-                            window.location.href = "/Vistas_de_inicio/consultor.html";
+                            window.location.href = "/vista/consultor";
                             break;
                         case "usuario":
-                            window.location.href = "/Vistas_de_inicio/cliente.html";
+                            window.location.href = "/vista/cliente";
                             break;
                         default:
                             alert("Rol desconocido: " + rol);
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (volverLink) {
             volverLink.addEventListener("click", function(event) {
                 event.preventDefault();
-                // ✅ redirige a la raíz Flask
+                // ✅ Redirige al login Flask
                 window.location.href = "/";
             });
         }
