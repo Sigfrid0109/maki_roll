@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function cargarResultados() {
   try {
-    const res = await fetch("http://localhost:5000/api/resultados");
+    const res = await fetch("/api/resultados");
     const datos = await res.json();
     const tabla = document.getElementById("tabla");
     tabla.innerHTML = "";

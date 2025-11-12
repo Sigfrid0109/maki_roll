@@ -66,7 +66,7 @@ let premios = [];
 
 async function cargar() {
   try {
-    const res = await fetch("http://localhost:5000/api/premios");
+    const res = await fetch("/api/premios"); // ✅ ruta relativa
     premios = await res.json();
     render();
   } catch (error) {
@@ -79,9 +79,11 @@ function render() {
   lista.innerHTML = "";
   premios.forEach((p, i) => {
     const div = document.createElement("div");
+    div.classList.add("item-premio");
     div.innerHTML = `
-      <input value="${p.nombre}" data-index="${i}">
-      <button onclick="eliminar(${i})">❌</button>`;
+      <input type="text" value="${p.nombre}" data-index="${i}">
+      <button onclick="eliminar(${i})">❌</button>
+    `;
     lista.appendChild(div);
   });
 }
@@ -100,7 +102,7 @@ window.eliminar = (i) => {
 
 document.getElementById("guardar").onclick = async () => {
   try {
-    await fetch("http://localhost:5000/api/premios", {
+    await fetch("/api/premios", { // ✅ ruta relativa
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ premios: premios.map(p => p.nombre) })
@@ -113,3 +115,4 @@ document.getElementById("guardar").onclick = async () => {
 };
 
 cargar();
+

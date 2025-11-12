@@ -161,41 +161,94 @@ def logout():
 def obtener_premios():
     db = get_db()
     cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT id_premio, nombre FROM premios")
-    data = cursor.fetchall()
-    cursor.close()
-    db.close()
-    return jsonify(data)
+    try:
+        cursor.execute("SELECT id_premio, nombre FROM ruleta_premios ORDER BY id_premio ASC")
+        data = cursor.fetchall()
+        return jsonify(data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()
+
 
 @app.route("/api/premios", methods=["POST"])
 def actualizar_premios():
     db = get_db()
-    cursor = db.cursor(dictionary=True)
+    cursor = db.cursor()
     data = request.get_json()
-    cursor.execute("DELETE FROM premios")
-    for premio in data.get("premios", []):
-        cursor.execute("INSERT INTO premios (nombre) VALUES (%s)", (premio,))
-    db.commit()
-    cursor.close()
-    db.close()
-    return jsonify({"mensaje": "Premios actualizados correctamente"})
+    try:
+        cursor.execute("DELETE FROM ruleta_premios")
+        for premio in data.get("premios", []):
+            cursor.execute("INSERT INTO ruleta_premios (nombre) VALUES (%s)", (premio,))
+        db.commit()
+        return jsonify({"mensaje": "Premios actualizados correctamente ✅"})
+    except Exception as e:
+        db.rollback()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()
 
+
+# ---------------------------------------------------
+# GUARDAR RESULTADO DE LA RULETA 
+# ---------------------------------------------------
 @app.route("/api/resultados", methods=["POST"])
 def guardar_resultado():
     db = get_db()
     cursor = db.cursor(dictionary=True)
+
     data = request.get_json()
     id_usuario = data.get("id_usuario")
     id_premio = data.get("id_premio")
 
     if not id_usuario or not id_premio:
-        return jsonify({"exito": False, "error": "Faltan datos"}), 400
+        return jsonify({"exito": False, "error": "Faltan datos: id_usuario o id_premio"}), 400
 
-    cursor.execute("INSERT INTO resultados (id_usuario, id_premio) VALUES (%s, %s)", (id_usuario, id_premio))
-    db.commit()
-    cursor.close()
-    db.close()
-    return jsonify({"exito": True, "mensaje": "Resultado guardado"})
+    try:
+        cursor.execute("""
+            INSERT INTO ruleta_giros (id_usuario, id_premio, fecha)
+            VALUES (%s, %s, NOW())
+        """, (id_usuario, id_premio))
+        db.commit()
+        return jsonify({"exito": True, "mensaje": "Resultado guardado"}), 201
+    except Exception as e:
+        db.rollback()
+        print("❌ Error al guardar resultado:", e)
+        return jsonify({"exito": False, "error": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()
+
+@app.route("/api/resultados", methods=["GET"])
+def obtener_resultados():
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+    try:
+        cursor.execute("""
+            SELECT 
+                g.id_resultado,
+                c.usuario AS usuario,
+                p.nombre AS premio,
+                g.fecha
+            FROM ruleta_giros g
+            LEFT JOIN clientes c ON g.id_usuario = c.id_usuario
+            LEFT JOIN ruleta_premios p ON g.id_premio = p.id_premio
+            ORDER BY g.fecha DESC
+        """)
+        data = cursor.fetchall()
+        return jsonify(data)
+    except Exception as e:
+        print("Error en obtener_resultados:", e)
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        db.close()
+
+
+
+
 
 # ---------------------------------------------------
 # CRUD DE PLATILLOS (MENÚ)
