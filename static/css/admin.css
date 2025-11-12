@@ -20,14 +20,14 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100px; /* más chica */
+    height: 100px;
     background: var(--negro);
     color: var(--blanco);
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 3px 12px rgba(0,0,0,0.4);
-    z-index: 1000;
+    z-index: 500; /* 🔽 bajamos prioridad */
 }
 
 .logo {
@@ -47,10 +47,12 @@ body {
     padding: 4px 8px;
     border-radius: 6px;
     transition: 0.3s;
+    z-index: 1100; /* 🔼 encima del navbar */
 }
 
 .menu-btn:hover {
     background: #f9f9f9;
+    color: var(--negro);
 }
 
 /* ======== Menú lateral ======== */
@@ -66,9 +68,9 @@ body {
     height: 100%;
     background: var(--negro);
     color: var(--blanco);
-    padding-top: 60px;
+    padding-top: 100px; /* 🔹 deja espacio para la barra superior */
     transition: all 0.3s ease;
-    z-index: 999;
+    z-index: 1001; /* 🔼 por encima del navbar */
     box-shadow: 3px 0 8px rgba(0,0,0,0.3);
 }
 
@@ -91,7 +93,7 @@ body {
 
 /* ======== Contenido principal ======== */
 .contenido {
-    margin-top: 80px; /* espacio para la barra */
+    margin-top: 100px; /* espacio igual que la barra */
     padding: 2rem;
     transition: margin-left 0.3s ease;
 }
