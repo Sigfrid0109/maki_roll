@@ -2,41 +2,63 @@ document.addEventListener("DOMContentLoaded", () => {
   // Obtener rol guardado
   const rol = localStorage.getItem("rol");
 
-  // ✅ Detectar inicio según el rol
+  // ✅ Redirigir según el rol
   function irInicio() {
     if (rol === "administrador") {
-      window.location.href = "/inicio_admin.html";
+      window.location.href = "/inicio_admin";
     } else if (rol === "editor") {
-      window.location.href = "/inicio_editor.html";
+      window.location.href = "/inicio_editor";
     } else if (rol === "consultor") {
-      window.location.href = "/inicio_consultor.html";
+      window.location.href = "/inicio_consultor";
     } else {
-      window.location.href = "/inicio_usuario.html"; // o la vista general
+      window.location.href = "/inicio_usuario"; // vista general
     }
   }
 
-  // 🧭 Asignar eventos
-  document.getElementById("inicio").addEventListener("click", irInicio);
+  // 🧭 Asignar eventos de navegación
+  const inicio = document.getElementById("inicio");
+  const ventas = document.getElementById("ventas");
+  const menuEdt = document.getElementById("menuEdt");
+  const pedidos = document.getElementById("pedidos");
+  const ruletaPremios = document.getElementById("ruletaPremios");
+  const ruletaConfig = document.getElementById("ruletaConfig");
 
-  document.getElementById("ventas").addEventListener("click", () => {
-    window.location.href = "/Graficas_de_venta_adm_consu_edt/Estadisticas/index.html";
-  });
+  if (inicio) inicio.addEventListener("click", irInicio);
 
-  document.getElementById("menuEdt").addEventListener("click", () => {
-    window.location.href = "/Menu/templates/menu_admin.html";
-  });
+  if (ventas)
+    ventas.addEventListener("click", () => {
+      window.location.href = "/graficas_ventas";
+    });
 
-  document.getElementById("pedidos").addEventListener("click", () => {
-    window.location.href = "/Pedidos_adm_consu_edt/ver_pedidos.html";
-  });
+  if (menuEdt)
+    menuEdt.addEventListener("click", () => {
+      window.location.href = "/menu_admin";
+    });
 
-  document.getElementById("ruletaPremios").addEventListener("click", () => {
-    window.location.href = "/Ruleta_vista_general/resultados.html";
-  });
+  if (pedidos)
+    pedidos.addEventListener("click", () => {
+      window.location.href = "/ver_pedidos";
+    });
 
-  document.getElementById("ruletaConfig").addEventListener("click", () => {
-    window.location.href = "/Ruleta_vista_general/ruleta_config.html";
-  });
+  if (ruletaPremios)
+    ruletaPremios.addEventListener("click", () => {
+      window.location.href = "/resultados";
+    });
+
+  if (ruletaConfig)
+    ruletaConfig.addEventListener("click", () => {
+      window.location.href = "/ruleta_config";
+    });
+
+  // 🍔 Menú hamburguesa
+  const menuToggle = document.getElementById("menu-toggle");
+  const menu = document.querySelector(".menu");
+
+  if (menuToggle && menu) {
+    menuToggle.addEventListener("change", () => {
+      menu.classList.toggle("activo", menuToggle.checked);
+    });
+  }
 });
 
 

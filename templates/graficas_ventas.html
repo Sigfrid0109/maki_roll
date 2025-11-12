@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>MakiRoll | Estadísticas</title>
-  <link rel="stylesheet" href="css/estilos.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/graficas_ventas.css') }}">
 </head>
 <body>
     <!-- Botón para abrir/cerrar -->
@@ -15,10 +15,10 @@
 <div class="menu">
   <a id="inicio">Inicio</a>
   <a id="ventas">ventas</a>
-  <a id="Menu">Menu Edt</a>
-  <a id="Pedidos">Pedidos Reg</a>
-  <a id="Ruleta premios">Ruleta de premios</a>
-  <a id="Ruleta config">Ruleta config</a>
+  <a id="menuEdt">Menu Edt</a>
+  <a id="pedidos">Pedidos Reg</a>
+  <a id="ruletaPremios">Ruleta de premios</a>
+  <a id="ruletaConfig">Ruleta config</a>
 </div>
 
   <header>
@@ -84,6 +84,7 @@
     <p>© 2025 MakiRoll | Restaurante Japonés</p>
   </footer>
 
-  <script src="js/scrip.js"></script>
+  <script src="{{ url_for('static', filename='js/graficas_ventas.js') }}"></script>
+
 </body>
 </html>
