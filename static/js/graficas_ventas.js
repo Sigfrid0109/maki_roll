@@ -62,11 +62,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-document.getElementById("logoutBtn").addEventListener("click", async () => {
-  await fetch("/logout", { method: "POST" });
-  localStorage.clear(); // 🧹 Limpia rol y usuario
-  window.location.href = "/";
-});
 
 
 
