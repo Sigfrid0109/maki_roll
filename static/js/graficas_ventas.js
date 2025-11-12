@@ -1,20 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Obtener rol guardado
- if (data.exito) {
-  localStorage.setItem("rol", data.rol); // 🔹 Guarda el rol
-  localStorage.setItem("usuario", data.usuario); // opcional
-  // Redirige al inicio según rol
-  if (data.rol === "administrador") {
-    window.location.href = "/inicio_admin";
-  } else if (data.rol === "editor") {
-    window.location.href = "/inicio_editor";
-  } else if (data.rol === "consultor") {
-    window.location.href = "/inicio_consultor";
-  } else {
-    window.location.href = "/inicio_usuario";
-  }
-}
+  // 🟢 Obtener rol guardado en localStorage
+  const rol = localStorage.getItem("rol");
 
+  // ✅ Redirigir según el rol
+  function irInicio() {
+    if (rol === "administrador") {
+      window.location.href = "/inicio_admin";
+    } else if (rol === "editor") {
+      window.location.href = "/inicio_editor";
+    } else if (rol === "consultor") {
+      window.location.href = "/inicio_consultor";
+    } else {
+      window.location.href = "/inicio_usuario";
+    }
+  }
 
   // 🧭 Asignar eventos de navegación
   const inicio = document.getElementById("inicio");
@@ -61,7 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-
 
 
 
