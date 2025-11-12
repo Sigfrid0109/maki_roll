@@ -357,7 +357,7 @@ def enviar_pedido():
     """, (
         id_pedido,
         datos["nombre"],
-        datos["nombre"],
+        datos["usuario"],
         datos["direccion"],
         datos["telefono"],
         datos["codigo_postal"],
@@ -370,6 +370,35 @@ def enviar_pedido():
     cursor.close()
     db.close()
     return jsonify({"mensaje": "Pedido guardado correctamente"})
+
+@app.route("/obtener_pedidos", methods=["GET"])
+def obtener_pedidos():
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT 
+            p.id_pedido,
+            pd.nombre_cliente,
+            pd.nombre_usuario,
+            p.platillo,
+            pd.direccion,
+            pd.telefono,
+            pd.codigo_postal,
+            pd.tipo_vivienda,
+            pd.referencia,
+            pd.comentarios,
+            pd.fecha_hora
+        FROM pedidos p
+        INNER JOIN pedido_detalles pd ON p.id_pedido = pd.id_pedido
+        ORDER BY pd.fecha_hora DESC
+    """)
+
+    datos = cursor.fetchall()
+    cursor.close()
+    db.close()
+    return jsonify(datos)
+
 
 # ---------------------------------------------------
 # EJECUCIÓN LOCAL

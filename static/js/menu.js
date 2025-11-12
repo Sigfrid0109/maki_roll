@@ -248,3 +248,59 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inicialización
     actualizarCarrito();
 });
+
+let platilloSeleccionado = ""; // Variable global
+
+// Detectar clic en cualquier botón "Comprar"
+document.querySelectorAll(".btn-comprar").forEach(boton => {
+  boton.addEventListener("click", () => {
+    // Obtiene el nombre real del platillo
+    platilloSeleccionado = boton.getAttribute("data-producto");
+
+    // Guarda el nombre en el campo oculto
+    document.getElementById("platillo").value = platilloSeleccionado;
+
+    // Abre el formulario
+    document.getElementById("formularioPedido").showModal();
+  });
+});
+
+// Botón "Cancelar" del formulario
+document.getElementById("cancelarPedido").addEventListener("click", () => {
+  document.getElementById("formularioPedido").close();
+});
+
+// Enviar pedido al backend Flask
+document.getElementById("formPedido").addEventListener("submit", async function(event) {
+  event.preventDefault();
+
+  const datos = {
+    platillo: document.getElementById("platillo").value,
+    nombre: document.getElementById("nombre").value,
+    usuario: document.getElementById("usuario").value,
+    direccion: document.getElementById("direccion").value,
+    telefono: document.getElementById("telefono").value,
+    codigo_postal: document.getElementById("codigo-postal").value,
+    tipo_vivienda: document.getElementById("tipo-vivienda").value,
+    referencia: document.getElementById("referencia").value,
+    comentarios: document.getElementById("comentarios").value
+  };
+
+  try {
+    const respuesta = await fetch("/enviar_pedido", {
+     method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(datos)
+    });
+
+    const resultado = await respuesta.json();
+    alert(resultado.mensaje);
+
+    document.getElementById("formPedido").reset();
+    document.getElementById("formularioPedido").close();
+
+  } catch (error) {
+    console.error("Error al enviar el pedido:", error);
+    alert("Hubo un error al enviar tu pedido. Inténtalo nuevamente.");
+  }
+});

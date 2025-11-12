@@ -57,38 +57,43 @@
 
   <script>
     async function cargarPedidos() {
-      try {
-        const respuesta = await fetch("http://127.0.0.1:5000/obtener_pedidos");
-        const pedidos = await respuesta.json();
+  try {
+    const respuesta = await fetch("/obtener_pedidos");
+    const pedidos = await respuesta.json();
 
-        const cuerpoTabla = document.querySelector("#tablaPedidos tbody");
-        cuerpoTabla.innerHTML = "";
+    const cuerpoTabla = document.querySelector("#tablaPedidos tbody");
+    cuerpoTabla.innerHTML = "";
 
-        pedidos.forEach(p => {
-          const fila = document.createElement("tr");
-          fila.innerHTML = `
-            <td>${p.pedido_id}</td>
-            <td>${p.platillo}</td>
-            <td>${p.nombre_cliente || "—"}</td>
-            <td>${p.nombre_usuario || "—"}</td>
-            <td>${p.direccion || "—"}</td>
-            <td>${p.telefono || "—"}</td>
-            <td>${p.codigo_postal || "—"}</td>
-            <td>${p.tipo_vivienda || "—"}</td>
-            <td>${p.referencia || "—"}</td>
-            <td>${p.comentarios || "—"}</td>
-            <td>${p.fecha_hora || "—"}</td>
-          `;
-          cuerpoTabla.appendChild(fila);
-        });
-      } catch (error) {
-        console.error("Error al cargar pedidos:", error);
-        alert("Hubo un error al obtener los pedidos");
-      }
+    if (pedidos.length === 0) {
+      cuerpoTabla.innerHTML = `<tr><td colspan="11">No hay pedidos registrados.</td></tr>`;
+      return;
     }
 
-    document.getElementById("recargar").addEventListener("click", cargarPedidos);
-    cargarPedidos();
+    pedidos.forEach(p => {
+      const fila = document.createElement("tr");
+      fila.innerHTML = `
+        <td>${p.id_pedido}</td>
+        <td>${p.platillo || "—"}</td>
+        <td>${p.nombre_cliente || "—"}</td>
+        <td>${p.nombre_usuario || "—"}</td>
+        <td>${p.direccion || "—"}</td>
+        <td>${p.telefono || "—"}</td>
+        <td>${p.codigo_postal || "—"}</td>
+        <td>${p.tipo_vivienda || "—"}</td>
+        <td>${p.referencia || "—"}</td>
+        <td>${p.comentarios || "—"}</td>
+        <td>${p.fecha_hora ? new Date(p.fecha_hora).toLocaleString() : "—"}</td>
+      `;
+      cuerpoTabla.appendChild(fila);
+    });
+  } catch (error) {
+    console.error("Error al cargar pedidos:", error);
+    alert("Hubo un error al obtener los pedidos.");
+  }
+}
+
+document.getElementById("recargar").addEventListener("click", cargarPedidos);
+cargarPedidos();
   </script>
 
       <script src="{{ url_for('static', filename='js/ver_pedidos.js') }}"></script>
