@@ -32,6 +32,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 if (result.exito) {
                     const rol = result.rol.trim().toLowerCase();
+                              // 🟢 Guarda datos en localStorage
+                    localStorage.setItem("rol", rol);
+                    localStorage.setItem("usuario", result.usuario);
                     console.log("Rol recibido desde backend:", rol);
                     alert("Bienvenido 🟢 (" + rol + ")");
 
