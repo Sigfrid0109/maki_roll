@@ -59,6 +59,33 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+if (logoutBtn) {
+    logoutBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      console.log("🚪 Clic en LOGOUT");
+
+      try {
+        const response = await fetch("/logout", {
+          method: "POST",
+          credentials: "include" // 👈 importante para sesiones en Flask
+        });
+
+        if (response.ok) {
+          console.log("✅ Sesión cerrada, redirigiendo al login...");
+          window.location.href = "/";
+        } else {
+          alert("⚠️ Error al cerrar sesión.");
+        }
+      } catch (error) {
+        console.error("❌ Error de conexión al cerrar sesión:", error);
+        alert("Error de conexión con el servidor.");
+      }
+    });
+  } else {
+    console.warn("⚠️ No se encontró el botón de logout (id='logoutBtn')");
+  }
+
+
 
 
 
