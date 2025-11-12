@@ -38,24 +38,23 @@ def vista_menu_admin():
     return render_template("menu_admin.html")
 
 # ---------------------------------------------------
-# NUEVAS RUTAS SEGÚN LAS VISTAS EN templates/
+# RUTAS HTML DE CADA ROL
 # ---------------------------------------------------
-
 @app.route("/inicio_admin")
 def inicio_admin():
-    return render_template("inicio_admin.html")
+    return render_template("admin.html")
 
 @app.route("/inicio_editor")
 def inicio_editor():
-    return render_template("inicio_editor.html")
+    return render_template("editor.html")
 
 @app.route("/inicio_consultor")
 def inicio_consultor():
-    return render_template("inicio_consultor.html")
+    return render_template("consultor.html")
 
 @app.route("/inicio_usuario")
 def inicio_usuario():
-    return render_template("inicio_usuario.html")
+    return render_template("cliente.html")
 
 @app.route("/graficas_ventas")
 def graficas_ventas():
