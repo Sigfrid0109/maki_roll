@@ -258,7 +258,7 @@ def obtener_platillos():
     db = get_db()
     cursor = db.cursor(dictionary=True)
     try:
-        cursor.execute("SELECT * FROM item_menu WHERE activo = 1")
+        cursor.execute("SELECT * FROM item_menu")
         datos = cursor.fetchall()
         return jsonify(datos)
     except Exception as e:
@@ -339,38 +339,80 @@ def eliminar_platillo(id):
 # ---------------------------------------------------
 # PEDIDOS
 # ---------------------------------------------------
+from datetime import datetime
+from flask import jsonify, request
+from db import get_db
+
 @app.route("/enviar_pedido", methods=["POST"])
 def enviar_pedido():
     db = get_db()
     cursor = db.cursor(dictionary=True)
     datos = request.get_json()
 
-    cursor.execute("INSERT INTO pedidos (platillo) VALUES (%s)", (datos["platillo"],))
-    db.commit()
-    id_pedido = cursor.lastrowid
+    # ---------------------------------------------
+    # Obtener el platillo (compatible con carrito o pedido simple)
+    # ---------------------------------------------
+    if "platillo" in datos:
+        platillo = datos["platillo"]
+    elif "productos" in datos and len(datos["productos"]) > 0:
+        # Si el pedido viene del carrito, tomamos el primer producto como principal
+        platillo = datos["productos"][0].get("producto", "Sin especificar")
+    else:
+        platillo = "Sin especificar"
 
-    cursor.execute("""
-        INSERT INTO pedido_detalles (
-            id_pedido, nombre_cliente, nombre_usuario, direccion, telefono, codigo_postal,
-            tipo_vivienda, referencia, comentarios, fecha_hora
-        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-    """, (
-        id_pedido,
-        datos["nombre"],
-        datos["usuario"],
-        datos["direccion"],
-        datos["telefono"],
-        datos["codigo_postal"],
-        datos["tipo_vivienda"],
-        datos["referencia"],
-        datos["comentarios"],
-        datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    ))
-    db.commit()
+    # ---------------------------------------------
+    # Insertar en la tabla 'pedidos'
+    # ---------------------------------------------
+    try:
+        cursor.execute("INSERT INTO pedidos (platillo) VALUES (%s)", (platillo,))
+        db.commit()
+        id_pedido = cursor.lastrowid
+    except Exception as e:
+        print("❌ Error al insertar en pedidos:", e)
+        db.rollback()
+        cursor.close()
+        db.close()
+        return jsonify({"error": "Error al guardar el pedido"}), 500
+
+    # ---------------------------------------------
+    # Insertar en la tabla 'pedido_detalles'
+    # ---------------------------------------------
+    try:
+        cursor.execute("""
+            INSERT INTO pedido_detalles (
+                id_pedido, nombre_cliente, nombre_usuario, direccion, telefono, codigo_postal,
+                tipo_vivienda, referencia, comentarios, fecha_hora
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """, (
+            id_pedido,
+            datos.get("nombre"),
+            datos.get("usuario"),
+            datos.get("direccion"),
+            datos.get("telefono"),
+            datos.get("codigo_postal"),
+            datos.get("tipo_vivienda"),
+            datos.get("referencia"),
+            datos.get("comentarios"),
+            datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        ))
+        db.commit()
+    except Exception as e:
+        print("❌ Error al insertar en pedido_detalles:", e)
+        db.rollback()
+        cursor.close()
+        db.close()
+        return jsonify({"error": "Error al guardar detalles del pedido"}), 500
+
+    # Cerrar conexión correctamente
     cursor.close()
     db.close()
-    return jsonify({"mensaje": "Pedido guardado correctamente"})
 
+    return jsonify({"mensaje": "✅ Pedido guardado correctamente"})
+
+
+# ---------------------------------------------------
+# OBTENER PEDIDOS
+# ---------------------------------------------------
 @app.route("/obtener_pedidos", methods=["GET"])
 def obtener_pedidos():
     db = get_db()
@@ -397,6 +439,7 @@ def obtener_pedidos():
     datos = cursor.fetchall()
     cursor.close()
     db.close()
+
     return jsonify(datos)
 
 

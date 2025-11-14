@@ -166,38 +166,52 @@ document.addEventListener('DOMContentLoaded', () => {
         formularioPedido.close();
     });
 
-    formPedido.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const formData = new FormData(formPedido);
-        const pedido = {
-            nombre: formData.get('nombre'),
-            usuario: formData.get('usuario'),
-            direccion: formData.get('direccion'),
-            telefono: formData.get('telefono'),
-            codigoPostal: formData.get('codigo-postal'),
-            tipoVivienda: formData.get('tipo-vivienda'),
-            referencia: formData.get('referencia'),
-            comentarios: formData.get('comentarios'),
-            productos: carrito,
-            total: carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0)
-        };
-        
-        // Aquí enviarías el pedido al servidor
-        console.log('Pedido realizado:', pedido);
-        
-        // Mostrar confirmación
-        alert('¡Pedido realizado con éxito! Te contactaremos pronto.');
-        
-        // Limpiar carrito y cerrar modal
+    formPedido.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    // Capturar los datos del formulario
+    const formData = new FormData(formPedido);
+    const pedido = {
+        nombre: formData.get('nombre'),
+        usuario: formData.get('usuario'),
+        direccion: formData.get('direccion'),
+        telefono: formData.get('telefono'),
+        codigo_postal: formData.get('codigo-postal'),
+        tipo_vivienda: formData.get('tipo-vivienda'),
+        referencia: formData.get('referencia'),
+        comentarios: formData.get('comentarios'),
+        productos: carrito,
+        total: carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0)
+    };
+
+    try {
+        // Enviar el pedido al backend Flask
+        const respuesta = await fetch("/enviar_pedido", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(pedido)
+        });
+
+        const resultado = await respuesta.json();
+        if (resultado.mensaje) {
+            alert(resultado.mensaje);
+        } else {
+            alert("Pedido registrado correctamente en el backend.");
+        }
+
+        // Limpiar formulario y carrito
         formularioPedido.close();
+        formPedido.reset();
         carrito = [];
         actualizarCarrito();
-        formPedido.reset();
-        
-        // Mostrar notificación de confirmación
         mostrarNotificacion('¡Pedido confirmado! Gracias por tu compra.');
-    });
+
+    } catch (error) {
+        console.error("Error al enviar el pedido:", error);
+        alert("Hubo un error al enviar tu pedido. Inténtalo nuevamente.");
+    }
+});
+
 
     // Cerrar modal al hacer clic fuera
     document.addEventListener('click', (e) => {
@@ -270,7 +284,7 @@ document.getElementById("cancelarPedido").addEventListener("click", () => {
   document.getElementById("formularioPedido").close();
 });
 
-// Enviar pedido al backend Flask
+// Enviar pedido al backend Flask   
 document.getElementById("formPedido").addEventListener("submit", async function(event) {
   event.preventDefault();
 

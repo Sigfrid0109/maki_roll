@@ -60,6 +60,7 @@
   try {
     const respuesta = await fetch("/obtener_pedidos");
     const pedidos = await respuesta.json();
+    
 
     const cuerpoTabla = document.querySelector("#tablaPedidos tbody");
     cuerpoTabla.innerHTML = "";
